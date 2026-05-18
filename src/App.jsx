@@ -247,10 +247,10 @@ function StatusBadge({ status }) {
   return <span className={className}>{status}</span>;
 }
 
-function ProductImage({ product, variant, large = false }) {
+function ProductImage({ product, variant, large = false, selectedImage }) {
   const colorName = variant?.color || product.variants?.[0]?.color || product.name;
   const chips = getColorChips(colorName);
-  const firstImage = variant?.images?.[0];
+  const firstImage = selectedImage || variant?.images?.[0];
 
   if (!firstImage) return null;
 
@@ -267,13 +267,13 @@ function ProductImage({ product, variant, large = false }) {
   );
 }
 
-function PlaceholderVisual({ product, variant, large = false }) {
+function PlaceholderVisual({ product, variant, large = false, selectedImage }) {
   const colorName = variant?.color || product.variants?.[0]?.color || product.name;
   const chips = getColorChips(colorName);
   const isBag = product.category.includes("Bags");
 
   if (variant?.images?.length) {
-    return <ProductImage product={product} variant={variant} large={large} />;
+    return <ProductImage product={product} variant={variant} large={large} selectedImage={selectedImage} />;
   }
 
   return (
@@ -293,6 +293,35 @@ function PlaceholderVisual({ product, variant, large = false }) {
         <h3>{product.name}</h3>
         <p>{colorName}</p>
       </div>
+    </div>
+  );
+}
+
+function ProductGallery({ product, variant, selectedImage, onSelectImage }) {
+  const images = variant?.images || [];
+
+  return (
+    <div className="gallery-wrap">
+      <PlaceholderVisual product={product} variant={variant} large selectedImage={selectedImage} />
+
+      {images.length > 1 && (
+        <div className="thumbnail-row">
+          {images.map((image, index) => {
+            const isSelected = image === selectedImage;
+
+            return (
+              <button
+                key={image}
+                onClick={() => onSelectImage(image)}
+                className={`thumbnail-button ${isSelected ? "thumbnail-selected" : ""}`}
+                aria-label={`View image ${index + 1}`}
+              >
+                <img src={image} alt={`${product.name} preview ${index + 1}`} />
+              </button>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
@@ -342,7 +371,13 @@ function ProductCard({ item, onSelect, buttonLabel = "View Colors" }) {
 
 function ProductDetailPage({ product, onBack }) {
   const [selectedVariant, setSelectedVariant] = useState(product.variants[0]);
+  const [selectedImage, setSelectedImage] = useState(product.variants[0]?.images?.[0] || null);
   const isSoldOut = selectedVariant.status === "Sold Out";
+
+  function handleVariantSelect(variant) {
+    setSelectedVariant(variant);
+    setSelectedImage(variant.images?.[0] || null);
+  }
 
   return (
     <main className="site">
@@ -354,7 +389,12 @@ function ProductDetailPage({ product, onBack }) {
 
           <div className="detail-grid">
             <div className="detail-visual">
-              <PlaceholderVisual product={product} variant={selectedVariant} large />
+              <ProductGallery
+                product={product}
+                variant={selectedVariant}
+                selectedImage={selectedImage}
+                onSelectImage={setSelectedImage}
+              />
             </div>
 
             <div className="detail-panel">
@@ -380,7 +420,7 @@ function ProductDetailPage({ product, onBack }) {
                     return (
                       <button
                         key={variant.color}
-                        onClick={() => setSelectedVariant(variant)}
+                        onClick={() => handleVariantSelect(variant)}
                         className={`variant-card ${isSelected ? "selected" : ""}`}
                       >
                         <div className="mini-chips">
