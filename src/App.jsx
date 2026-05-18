@@ -113,7 +113,23 @@ const products = [
     price: "$120",
     status: "Available",
     description: "Soho style shoulder bag inspired by the original Coach design.",
-    variants: [{ color: "Maple Brown Signature Jacquard", status: "Available" }],
+    variants: [
+      {
+        color: "Maple Brown Signature Jacquard",
+        status: "Available",
+        images: [
+          "/products/coach-soho-maple-brown-1.jpeg",
+          "/products/coach-soho-maple-brown-2.jpeg",
+          "/products/coach-soho-maple-brown-3.jpeg",
+          "/products/coach-soho-maple-brown-4.jpeg",
+          "/products/coach-soho-maple-brown-5.jpeg",
+          "/products/coach-soho-maple-brown-6.jpeg",
+          "/products/coach-soho-maple-brown-7.jpeg",
+          "/products/coach-soho-maple-brown-8.jpeg",
+          "/products/coach-soho-maple-brown-9.jpeg",
+        ],
+      },
+    ],
   },
   {
     id: "ashton",
@@ -168,9 +184,11 @@ function getColorChips(colorName) {
   if (name.includes("purple")) chips.push("#a855f7");
   if (name.includes("pink")) chips.push("#ec4899");
   if (name.includes("red") || name.includes("fire")) chips.push("#ef4444");
+
   if (name.includes("orange") || name.includes("gold") || name.includes("yellow") || name.includes("24k")) {
     chips.push("#facc15");
   }
+
   if (name.includes("green")) chips.push("#34d399");
   if (name.includes("bronze") || name.includes("brown") || name.includes("amber")) chips.push("#92400e");
 
@@ -292,6 +310,7 @@ function ProductCard({ item, onSelect, buttonLabel = "View Colors" }) {
             <p className="category">{item.category}</p>
             <h3>{item.name}</h3>
           </div>
+
           <span className="varies">Varies by color</span>
         </div>
 
@@ -311,6 +330,7 @@ function ProductCard({ item, onSelect, buttonLabel = "View Colors" }) {
 
         <div className="product-bottom">
           <span className="price">{item.price}</span>
+
           <button onClick={() => onSelect(item.id)} className="white-button">
             {buttonLabel} <Icon type="arrow" />
           </button>
