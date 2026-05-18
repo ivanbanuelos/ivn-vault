@@ -19,7 +19,11 @@ const products = [
     description:
       "Romeo inspired sunglasses with a bold X-Metal vintage sport look. Multiple lens colorways available.",
     variants: [
-      { color: "Black Frame / Yellow Red Fire Lens", status: "Available" },
+      {
+        color: "Black Frame / Yellow Red Fire Lens",
+        status: "Available",
+        images: ["/products/romeo-preview-1.jpeg"],
+      },
       { color: "Black Frame / Pink Mirror Lens", status: "Available" },
       { color: "Black Frame / Deep Blue Purple Lens", status: "Available" },
       { color: "Silver Frame / Smoke Gray Lens", status: "Available" },
