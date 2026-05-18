@@ -42,7 +42,11 @@ const products = [
     description:
       "Juliet inspired sunglasses with a clean vintage sport-luxury look. Multiple lens colorways available.",
     variants: [
-      { color: "Black Frame / Red Fire Lens", status: "Available" },
+      {
+        color: "Black Frame / Red Fire Lens",
+        status: "Available",
+        images: ["/products/juliet-preview-1.jpeg"],
+      },
       { color: "Black Frame / Smoke Black Lens", status: "Available" },
       { color: "Gunmetal Frame / Purple Gold Mirror Lens", status: "Available" },
       { color: "Gunmetal Frame / Hot Pink Mirror Lens", status: "Available" },
