@@ -143,6 +143,7 @@ function getColorChips(colorName) {
   const chips = [];
 
   if (name.includes("black")) chips.push("#020617");
+
   if (
     name.includes("gunmetal") ||
     name.includes("smoke") ||
@@ -151,6 +152,7 @@ function getColorChips(colorName) {
   ) {
     chips.push("#a1a1aa");
   }
+
   if (name.includes("white") || name.includes("clear")) chips.push("#ffffff");
   if (name.includes("blue") || name.includes("aqua") || name.includes("ice")) chips.push("#3b82f6");
   if (name.includes("purple")) chips.push("#a855f7");
@@ -169,21 +171,27 @@ function getGradient(colorName) {
   if (name.includes("fire") || name.includes("red") || name.includes("orange")) {
     return "linear-gradient(135deg, rgba(239,68,68,.38), rgba(249,115,22,.24), #020617)";
   }
+
   if (name.includes("pink")) {
     return "linear-gradient(135deg, rgba(236,72,153,.35), rgba(168,85,247,.25), #020617)";
   }
+
   if (name.includes("purple") || name.includes("iridescent")) {
     return "linear-gradient(135deg, rgba(168,85,247,.35), rgba(59,130,246,.25), #020617)";
   }
+
   if (name.includes("blue") || name.includes("ice") || name.includes("aqua")) {
     return "linear-gradient(135deg, rgba(59,130,246,.35), rgba(34,211,238,.2), #020617)";
   }
+
   if (name.includes("yellow") || name.includes("gold")) {
     return "linear-gradient(135deg, rgba(250,204,21,.3), rgba(249,115,22,.2), #020617)";
   }
+
   if (name.includes("bronze") || name.includes("brown") || name.includes("amber")) {
     return "linear-gradient(135deg, rgba(146,64,14,.36), rgba(202,138,4,.16), #020617)";
   }
+
   if (name.includes("white") || name.includes("silver") || name.includes("clear")) {
     return "linear-gradient(135deg, rgba(244,244,245,.24), rgba(161,161,170,.18), #020617)";
   }
@@ -256,6 +264,7 @@ function ProductCard({ item, onSelect, buttonLabel = "View Colors" }) {
               ))}
             </div>
           ))}
+
           {item.variants?.length > 5 && <span className="more">+{item.variants.length - 5} more</span>}
         </div>
 
@@ -321,6 +330,7 @@ function ProductDetailPage({ product, onBack }) {
                             />
                           ))}
                         </div>
+
                         <p>{variant.color}</p>
                         <StatusBadge status={variant.status} />
                       </button>
@@ -328,6 +338,16 @@ function ProductDetailPage({ product, onBack }) {
                   })}
                 </div>
               </div>
+
+              {product.category === "Oakley-Inspired Sunglasses" && (
+                <div className="waitlist-box">
+                  <h3>Bundle deals available</h3>
+                  <p>
+                    Buying more than one pair? Mix sunglasses and save. Message me the models and colors you want, and
+                    I’ll confirm the best total.
+                  </p>
+                </div>
+              )}
 
               <div className="waitlist-box">
                 <h3>Restock waitlist idea</h3>
@@ -395,32 +415,6 @@ export default function App() {
         </div>
       </section>
 
-      <section className="container best-seller">
-        <div>
-          <p className="eyebrow">Bundle Deals</p>
-          <h2>Save more when you grab more.</h2>
-          <p>
-            Bundle pricing can be mixed between sunglasses. Message me the models and colors you want, and I’ll confirm
-            the best total.
-          </p>
-        </div>
-
-        <div className="deal-grid deal-grid-top">
-          <div>
-            <p>Radar EV</p>
-            <h3>2 for $100</h3>
-          </div>
-          <div>
-            <p>Mixed Sunglasses</p>
-            <h3>Save $15+</h3>
-          </div>
-          <div>
-            <p>3+ Items</p>
-            <h3>Best Deal</h3>
-          </div>
-        </div>
-      </section>
-
       <section id="catalog" className="container catalog-section">
         <div className="catalog-header">
           <div>
@@ -452,6 +446,7 @@ export default function App() {
                 <h3>Sunglasses</h3>
                 <p>Oakley-inspired frames and colorways</p>
               </div>
+
               <span>{sunglassesProducts.length} styles</span>
             </div>
 
@@ -476,6 +471,7 @@ export default function App() {
                 <h3>Bags</h3>
                 <p>Coach-inspired bag styles</p>
               </div>
+
               <span>{bagProducts.length} styles</span>
             </div>
 
@@ -488,20 +484,51 @@ export default function App() {
         )}
       </section>
 
+      <section className="container best-seller">
+        <div>
+          <p className="eyebrow">Bundle Deals</p>
+          <h2>Save more when you grab more.</h2>
+          <p>
+            Bundle pricing can be mixed between sunglasses. Message me the models and colors you want, and I’ll confirm
+            the best total.
+          </p>
+        </div>
+
+        <div className="deal-grid deal-grid-top">
+          <div>
+            <p>Radar EV</p>
+            <h3>2 for $100</h3>
+          </div>
+
+          <div>
+            <p>Mixed Sunglasses</p>
+            <h3>Save $15+</h3>
+          </div>
+
+          <div>
+            <p>3+ Items</p>
+            <h3>Best Deal</h3>
+          </div>
+        </div>
+      </section>
+
       <section className="container info-section">
         <div className="status-grid">
           <div>
             <StatusBadge status="Available" />
             <p>Ready to buy now</p>
           </div>
+
           <div>
             <StatusBadge status="Low Stock" />
             <p>Only a few left</p>
           </div>
+
           <div>
             <StatusBadge status="Sold Out" />
             <p>Join the waitlist later</p>
           </div>
+
           <div>
             <StatusBadge status="Coming Soon" />
             <p>Arriving soon</p>
@@ -557,6 +584,7 @@ export default function App() {
             <a href={FACEBOOK_URL} className="outline-button">
               Facebook
             </a>
+
             <a href={TEXT_URL} className="blue-button">
               Text Me
             </a>
