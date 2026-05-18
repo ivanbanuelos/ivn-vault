@@ -253,7 +253,6 @@ function StatusBadge({ status }) {
 
 function ProductImage({ product, variant, large = false, selectedImage }) {
   const colorName = variant?.color || product.variants?.[0]?.color || product.name;
-  const chips = getColorChips(colorName);
   const firstImage = selectedImage || variant?.images?.[0];
 
   if (!firstImage) return null;
@@ -261,19 +260,12 @@ function ProductImage({ product, variant, large = false, selectedImage }) {
   return (
     <div className={`placeholder image-placeholder ${large ? "placeholder-large" : ""}`}>
       <img src={firstImage} alt={`${product.name} ${colorName}`} className="product-image" />
-
-      <div className="chips">
-        {chips.map((chip, index) => (
-          <span key={`${chip}-${index}`} className="chip" style={{ background: chip }} />
-        ))}
-      </div>
     </div>
   );
 }
 
 function PlaceholderVisual({ product, variant, large = false, selectedImage }) {
   const colorName = variant?.color || product.variants?.[0]?.color || product.name;
-  const chips = getColorChips(colorName);
   const isBag = product.category.includes("Bags");
 
   if (variant?.images?.length) {
@@ -284,12 +276,6 @@ function PlaceholderVisual({ product, variant, large = false, selectedImage }) {
     <div className={`placeholder ${large ? "placeholder-large" : ""}`} style={{ background: getGradient(colorName) }}>
       <div className="glow glow-one" />
       <div className="glow glow-two" />
-
-      <div className="chips">
-        {chips.map((chip, index) => (
-          <span key={`${chip}-${index}`} className="chip" style={{ background: chip }} />
-        ))}
-      </div>
 
       <div className="placeholder-content">
         <div className="placeholder-icon">{isBag ? <Icon type="bag" /> : <Icon type="glasses" />}</div>
