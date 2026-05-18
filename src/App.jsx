@@ -615,30 +615,6 @@ export default function App() {
         </div>
       </section>
 
-      <section className="container info-section">
-        <div className="status-grid">
-          <div>
-            <StatusBadge status="Available" />
-            <p>Ready to buy now</p>
-          </div>
-
-          <div>
-            <StatusBadge status="Low Stock" />
-            <p>Only a few left</p>
-          </div>
-
-          <div>
-            <StatusBadge status="Sold Out" />
-            <p>Text me for restock</p>
-          </div>
-
-          <div>
-            <StatusBadge status="Coming Soon" />
-            <p>Arriving soon</p>
-          </div>
-        </div>
-      </section>
-
       <section className="order-section">
         <div className="container order-grid">
           <div className="order-intro">
