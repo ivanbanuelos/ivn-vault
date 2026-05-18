@@ -56,7 +56,11 @@ const products = [
     description:
       "Splice inspired wraparound sunglasses with bold early-2000s styling. Multiple lens colorways available.",
     variants: [
-      { color: "Gunmetal Black Frame / Black Lens — Triple Black", status: "Available" },
+      {
+        color: "Gunmetal Black Frame / Black Lens — Triple Black",
+        status: "Available",
+        images: ["/products/splice-gunmetal-black-1.jpeg"],
+      },
       { color: "Clear Silver Frame / Pink Purple Mirror Lens", status: "Available" },
       { color: "Black Frame / Smoke Black Lens", status: "Available" },
       { color: "Black Frame / Blue Purple Mirror Lens", status: "Available" },
@@ -212,10 +216,34 @@ function StatusBadge({ status }) {
   return <span className={className}>{status}</span>;
 }
 
+function ProductImage({ product, variant, large = false }) {
+  const colorName = variant?.color || product.variants?.[0]?.color || product.name;
+  const chips = getColorChips(colorName);
+  const firstImage = variant?.images?.[0];
+
+  if (!firstImage) return null;
+
+  return (
+    <div className={`placeholder image-placeholder ${large ? "placeholder-large" : ""}`}>
+      <img src={firstImage} alt={`${product.name} ${colorName}`} className="product-image" />
+
+      <div className="chips">
+        {chips.map((chip, index) => (
+          <span key={`${chip}-${index}`} className="chip" style={{ background: chip }} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function PlaceholderVisual({ product, variant, large = false }) {
   const colorName = variant?.color || product.variants?.[0]?.color || product.name;
   const chips = getColorChips(colorName);
   const isBag = product.category.includes("Bags");
+
+  if (variant?.images?.length) {
+    return <ProductImage product={product} variant={variant} large={large} />;
+  }
 
   return (
     <div className={`placeholder ${large ? "placeholder-large" : ""}`} style={{ background: getGradient(colorName) }}>
@@ -358,6 +386,7 @@ function ProductDetailPage({ product, onBack }) {
                 <a href={FACEBOOK_URL} className="outline-button">
                   Facebook
                 </a>
+
                 <a href={TEXT_URL} className="blue-button">
                   Text Me
                 </a>
@@ -408,6 +437,7 @@ export default function App() {
             <a href="#catalog" className="blue-button">
               View Catalog
             </a>
+
             <a href="#contact" className="outline-button">
               Contact Me
             </a>
