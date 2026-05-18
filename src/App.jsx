@@ -72,7 +72,7 @@ const products = [
       {
         color: "Gunmetal Black Frame / Black Lens — Triple Black",
         status: "Available",
-        images: ["/products/splice-gunmetal-black-1.jpeg"],
+        images: ["/products/splice-preview-1.jpeg"],
       },
       { color: "Clear Silver Frame / Pink Purple Mirror Lens", status: "Available" },
       { color: "Black Frame / Smoke Black Lens", status: "Available" },
@@ -102,15 +102,13 @@ const products = [
     variants: [
       { color: "White Frame / Purple Orange Fire Lens", status: "Available" },
       { color: "Pink Frame / Red and Orange Lens", status: "Available" },
-      { color: "Clear Smoke Frame / Purple Orange Fire Lens", status: "Available" },
-      { color: "White Frame / Royal Blue Lens", status: "Available" },
       { color: "Black Clear Frame / Silver Mirror Lens", status: "Available" },
       { color: "Purple Frame / Purple Lens", status: "Sold Out" },
       { color: "Black Frame / 24k Gold Lens", status: "Available" },
-      { color: "Black Frame / Royal Blue Lens", status: "Available" },
+      { color: "Black Frame / Matte Black Lens", status: "Available" },
+      { color: "White Frame / Royal Blue Lens", status: "Available" },
       { color: "Black Clear Frame / Blue Green Mirror Lens", status: "Available" },
       { color: "Light Blue Frame / Blue Lens", status: "Available" },
-      { color: "Black Frame / Matte Black Lens", status: "Available" },
       { color: "Gunmetal Black Frame / Smoke Gray Lens", status: "Available" },
     ],
   },
@@ -458,6 +456,11 @@ function ProductDetailPage({ product, onBack }) {
                   Text Me
                 </a>
               </div>
+
+              <div className="bundle-note">
+                <h3>Bundle Deal Available</h3>
+                <p>Want more than one pair? Message me and I can work out bundle pricing.</p>
+              </div>
             </div>
           </div>
         </div>
@@ -496,8 +499,8 @@ export default function App() {
           <h1>IVN Vault</h1>
 
           <p className="hero-text">
-            Browse Oakley-inspired sunglasses and Coach-inspired bags. Message to check availability, colors, bundle
-            deals, and pickup options.
+            Browse Oakley-inspired sunglasses and Coach-inspired bags. Message to check availability, colors, and
+            pickup options.
           </p>
 
           <div className="hero-actions">
@@ -579,34 +582,6 @@ export default function App() {
             </div>
           </div>
         )}
-      </section>
-
-      <section className="container best-seller">
-        <div>
-          <p className="eyebrow">Bundle Deals</p>
-          <h2>Save more when you grab more.</h2>
-          <p>
-            Bundle pricing can be mixed between sunglasses. Message me the models and colors you want, and I’ll confirm
-            the best total.
-          </p>
-        </div>
-
-        <div className="deal-grid deal-grid-top">
-          <div>
-            <p>Radar EV</p>
-            <h3>2 for $100</h3>
-          </div>
-
-          <div>
-            <p>Mixed Sunglasses</p>
-            <h3>Save $15+</h3>
-          </div>
-
-          <div>
-            <p>3+ Items</p>
-            <h3>Best Deal</h3>
-          </div>
-        </div>
       </section>
 
       <section className="order-section">
