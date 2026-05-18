@@ -93,16 +93,16 @@ const products = [
       "Radar EV inspired performance sunglasses with a sporty shield-lens look. Multiple frame and lens colorways available.",
     variants: [
       { color: "White Frame / Purple Orange Fire Lens", status: "Available" },
-      { color: "Pink Frame / Purple Orange Fire Lens", status: "Available" },
+      { color: "Pink Frame / Red and Orange Lens", status: "Available" },
       { color: "Clear Smoke Frame / Purple Orange Fire Lens", status: "Available" },
       { color: "White Frame / Royal Blue Lens", status: "Available" },
-      { color: "Black Camo Frame / Smoke Black Lens", status: "Available" },
-      { color: "Translucent Purple Frame / Purple Green Iridescent Lens", status: "Sold Out" },
-      { color: "Black Frame / Bronze Brown Lens", status: "Available" },
+      { color: "Black Clear Frame / Silver Mirror Lens", status: "Available" },
+      { color: "Purple Frame / Purple Lens", status: "Sold Out" },
+      { color: "Black Frame / 24k Gold Lens", status: "Available" },
       { color: "Black Frame / Royal Blue Lens", status: "Available" },
       { color: "Black Clear Frame / Blue Green Mirror Lens", status: "Available" },
       { color: "Light Blue Frame / Blue Lens", status: "Available" },
-      { color: "Black Frame / Triple Black Smoke Lens", status: "Available" },
+      { color: "Black Frame / Matte Black Lens", status: "Available" },
       { color: "Gunmetal Black Frame / Smoke Gray Lens", status: "Available" },
     ],
   },
@@ -157,7 +157,8 @@ function getColorChips(colorName) {
     name.includes("gunmetal") ||
     name.includes("smoke") ||
     name.includes("gray") ||
-    name.includes("silver")
+    name.includes("silver") ||
+    name.includes("mirror")
   ) {
     chips.push("#a1a1aa");
   }
@@ -167,7 +168,9 @@ function getColorChips(colorName) {
   if (name.includes("purple")) chips.push("#a855f7");
   if (name.includes("pink")) chips.push("#ec4899");
   if (name.includes("red") || name.includes("fire")) chips.push("#ef4444");
-  if (name.includes("orange") || name.includes("gold") || name.includes("yellow")) chips.push("#facc15");
+  if (name.includes("orange") || name.includes("gold") || name.includes("yellow") || name.includes("24k")) {
+    chips.push("#facc15");
+  }
   if (name.includes("green")) chips.push("#34d399");
   if (name.includes("bronze") || name.includes("brown") || name.includes("amber")) chips.push("#92400e");
 
@@ -193,7 +196,7 @@ function getGradient(colorName) {
     return "linear-gradient(135deg, rgba(59,130,246,.35), rgba(34,211,238,.2), #020617)";
   }
 
-  if (name.includes("yellow") || name.includes("gold")) {
+  if (name.includes("yellow") || name.includes("gold") || name.includes("24k")) {
     return "linear-gradient(135deg, rgba(250,204,21,.3), rgba(249,115,22,.2), #020617)";
   }
 
@@ -201,7 +204,12 @@ function getGradient(colorName) {
     return "linear-gradient(135deg, rgba(146,64,14,.36), rgba(202,138,4,.16), #020617)";
   }
 
-  if (name.includes("white") || name.includes("silver") || name.includes("clear")) {
+  if (
+    name.includes("white") ||
+    name.includes("silver") ||
+    name.includes("clear") ||
+    name.includes("mirror")
+  ) {
     return "linear-gradient(135deg, rgba(244,244,245,.24), rgba(161,161,170,.18), #020617)";
   }
 
