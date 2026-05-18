@@ -367,16 +367,6 @@ function ProductDetailPage({ product, onBack }) {
                 </div>
               </div>
 
-              {product.category === "Oakley-Inspired Sunglasses" && (
-                <div className="waitlist-box">
-                  <h3>Bundle deals available</h3>
-                  <p>
-                    Buying more than one pair? Mix sunglasses and save. Message me the models and colors you want, and
-                    I’ll confirm the best total.
-                  </p>
-                </div>
-              )}
-
               <div className="waitlist-box">
                 <h3>Restock waitlist idea</h3>
                 <p>Later, sold-out colors can collect emails or phone numbers for restock alerts.</p>
