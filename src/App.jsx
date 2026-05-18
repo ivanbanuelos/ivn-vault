@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import "./App.css";
 
 const FACEBOOK_URL = "https://www.facebook.com/marketplace/profile/61585466383362/";
-const TEXT_URL = "sms:+10000000000";
+const TEXT_URL = "sms:+12146359551";
 
 const products = [
   {
@@ -143,7 +143,14 @@ function getColorChips(colorName) {
   const chips = [];
 
   if (name.includes("black")) chips.push("#020617");
-  if (name.includes("gunmetal") || name.includes("smoke") || name.includes("gray") || name.includes("silver")) chips.push("#a1a1aa");
+  if (
+    name.includes("gunmetal") ||
+    name.includes("smoke") ||
+    name.includes("gray") ||
+    name.includes("silver")
+  ) {
+    chips.push("#a1a1aa");
+  }
   if (name.includes("white") || name.includes("clear")) chips.push("#ffffff");
   if (name.includes("blue") || name.includes("aqua") || name.includes("ice")) chips.push("#3b82f6");
   if (name.includes("purple")) chips.push("#a855f7");
@@ -307,7 +314,11 @@ function ProductDetailPage({ product, onBack }) {
                       >
                         <div className="mini-chips">
                           {getColorChips(variant.color).map((chip, index) => (
-                            <span key={`${variant.color}-${index}`} className="chip small" style={{ background: chip }} />
+                            <span
+                              key={`${variant.color}-${index}`}
+                              className="chip small"
+                              style={{ background: chip }}
+                            />
                           ))}
                         </div>
                         <p>{variant.color}</p>
@@ -369,8 +380,8 @@ export default function App() {
           <h1>IVN Vault</h1>
 
           <p className="hero-text">
-            Browse Oakley-inspired sunglasses and Coach-inspired bags. Message to check availability, colors, bundle deals,
-            and pickup options.
+            Browse Oakley-inspired sunglasses and Coach-inspired bags. Message to check availability, colors, bundle
+            deals, and pickup options.
           </p>
 
           <div className="hero-actions">
@@ -386,14 +397,28 @@ export default function App() {
 
       <section className="container best-seller">
         <div>
-          <p className="eyebrow">Best Seller</p>
-          <h2>Oakley Radar EV</h2>
-          <p>Sporty shield-lens style, multiple colorways, and the best entry price in the catalog.</p>
+          <p className="eyebrow">Bundle Deals</p>
+          <h2>Save more when you grab more.</h2>
+          <p>
+            Bundle pricing can be mixed between sunglasses. Message me the models and colors you want, and I’ll confirm
+            the best total.
+          </p>
         </div>
 
-        <button onClick={() => setSelectedProductId("radar-ev")} className="blue-button">
-          View Radar EV Colors <Icon type="arrow" />
-        </button>
+        <div className="deal-grid deal-grid-top">
+          <div>
+            <p>Radar EV</p>
+            <h3>2 for $100</h3>
+          </div>
+          <div>
+            <p>Mixed Sunglasses</p>
+            <h3>Save $15+</h3>
+          </div>
+          <div>
+            <p>3+ Items</p>
+            <h3>Best Deal</h3>
+          </div>
+        </div>
       </section>
 
       <section id="catalog" className="container catalog-section">
@@ -464,29 +489,6 @@ export default function App() {
       </section>
 
       <section className="container info-section">
-        <div className="bundle-box">
-          <div>
-            <p className="eyebrow">Bundle Deals</p>
-            <h2>Save more when you grab more.</h2>
-            <p>Bundle pricing can be mixed between sunglasses. Message me the models and colors you want.</p>
-          </div>
-
-          <div className="deal-grid">
-            <div>
-              <p>Radar EV</p>
-              <h3>2 for $100</h3>
-            </div>
-            <div>
-              <p>Mixed Sunglasses</p>
-              <h3>Save $15+</h3>
-            </div>
-            <div>
-              <p>3+ Items</p>
-              <h3>Best Deal</h3>
-            </div>
-          </div>
-        </div>
-
         <div className="status-grid">
           <div>
             <StatusBadge status="Available" />
