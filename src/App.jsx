@@ -4,6 +4,11 @@ import "./App.css";
 const FACEBOOK_URL = "https://www.facebook.com/marketplace/profile/61585466383362/";
 const TEXT_URL = "sms:+12146359551";
 
+function getWaitlistTextUrl(productName, colorName) {
+  const message = `Hey, I want to join the restock waitlist for ${productName} — ${colorName}.`;
+  return `sms:+12146359551?&body=${encodeURIComponent(message)}`;
+}
+
 const products = [
   {
     id: "romeo",
@@ -92,7 +97,7 @@ const products = [
       { color: "Clear Smoke Frame / Purple Orange Fire Lens", status: "Available" },
       { color: "White Frame / Royal Blue Lens", status: "Available" },
       { color: "Black Camo Frame / Smoke Black Lens", status: "Available" },
-      { color: "Translucent Purple Frame / Purple Green Iridescent Lens", status: "Available" },
+      { color: "Translucent Purple Frame / Purple Green Iridescent Lens", status: "Sold Out" },
       { color: "Black Frame / Bronze Brown Lens", status: "Available" },
       { color: "Black Frame / Royal Blue Lens", status: "Available" },
       { color: "Black Clear Frame / Blue Green Mirror Lens", status: "Available" },
@@ -309,6 +314,7 @@ function ProductCard({ item, onSelect, buttonLabel = "View Colors" }) {
 
 function ProductDetailPage({ product, onBack }) {
   const [selectedVariant, setSelectedVariant] = useState(product.variants[0]);
+  const isSoldOut = selectedVariant.status === "Sold Out";
 
   return (
     <main className="site">
@@ -367,10 +373,19 @@ function ProductDetailPage({ product, onBack }) {
                 </div>
               </div>
 
-              <div className="waitlist-box">
-                <h3>Restock waitlist idea</h3>
-                <p>Later, sold-out colors can collect emails or phone numbers for restock alerts.</p>
-              </div>
+              {isSoldOut && (
+                <div className="waitlist-box">
+                  <h3>Sold out? Join the restock waitlist.</h3>
+                  <p>
+                    Text me and I’ll save your interest for this exact colorway. Once it comes back, I can message you
+                    first.
+                  </p>
+
+                  <a href={getWaitlistTextUrl(product.name, selectedVariant.color)} className="blue-button">
+                    Text Me for Restock Alert
+                  </a>
+                </div>
+              )}
 
               <div className="action-row">
                 <a href={FACEBOOK_URL} className="outline-button">
@@ -546,7 +561,7 @@ export default function App() {
 
           <div>
             <StatusBadge status="Sold Out" />
-            <p>Join the waitlist later</p>
+            <p>Text me for restock</p>
           </div>
 
           <div>
