@@ -248,13 +248,7 @@ function CoachMiniLogo() {
 
 function BundleMiniIcon() {
   return (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      aria-hidden="true"
-    >
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path
         d="M12 3L21 12L12 21L3 12L12 3Z"
         stroke="currentColor"
@@ -268,51 +262,19 @@ function BundleMiniIcon() {
 
 function PickupMiniIcon() {
   return (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      aria-hidden="true"
-    >
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <circle cx="12" cy="12" r="6" stroke="currentColor" strokeWidth="1.8" />
-      <path
-        d="M12 3V8"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-      />
-      <path
-        d="M12 16V21"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-      />
-      <path
-        d="M3 12H8"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-      />
-      <path
-        d="M16 12H21"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-      />
+      <path d="M12 3V8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      <path d="M12 16V21" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      <path d="M3 12H8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      <path d="M16 12H21" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
     </svg>
   );
 }
 
 function BackIcon() {
   return (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      aria-hidden="true"
-    >
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path
         d="M15 18L9 12L15 6"
         stroke="currentColor"
@@ -326,20 +288,9 @@ function BackIcon() {
 
 function SearchIcon() {
   return (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      aria-hidden="true"
-    >
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="1.8" />
-      <path
-        d="M20 20L17 17"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-      />
+      <path d="M20 20L17 17" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
     </svg>
   );
 }
@@ -630,7 +581,8 @@ function ProductDetailPage({ product, onBack }) {
     <main
       style={{
         minHeight: "100vh",
-        background: "#020617",
+        background:
+          "radial-gradient(circle at 0% 0%, rgba(37,99,235,0.28), transparent 30%), linear-gradient(180deg, #000000 0%, #020617 55%, #000000 100%)",
         color: "#ffffff",
         padding: "28px 20px 80px",
       }}
@@ -1131,21 +1083,21 @@ export default function App() {
 
   return (
     <main
-  style={{
-    minHeight: "100vh",
-    background:
-      "radial-gradient(circle at 0% 0%, rgba(37, 99, 235, 0.42), transparent 34%), linear-gradient(180deg, #000000 0%, #020617 45%, #000000 100%)",
-    color: "#ffffff",
-  }}
->
+      style={{
+        minHeight: "100vh",
+        background:
+          "radial-gradient(circle at 0% 0%, rgba(37,99,235,0.26), transparent 32%), linear-gradient(180deg, #000000 0%, #000000 38%, #020617 100%)",
+        color: "#ffffff",
+      }}
+    >
       <section
-  style={{
-    maxWidth: 1280,
-    margin: "0 auto",
-    padding: "34px 20px 52px",
-    textAlign: "center",
-  }}
->
+        style={{
+          maxWidth: 1280,
+          margin: "0 auto",
+          padding: "34px 20px 52px",
+          textAlign: "center",
+        }}
+      >
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <img
             src="/ivn-vault-logo.png"
