@@ -5,6 +5,12 @@ const FACEBOOK_URL =
   "https://www.facebook.com/marketplace/profile/61585466383362/";
 const TEXT_URL = "sms:+12146359551";
 
+const HOME_BACKGROUND =
+  "radial-gradient(circle at -12% -10%, rgba(37,99,235,0.62), transparent 26%), radial-gradient(circle at 8% 4%, rgba(29,78,216,0.16), transparent 20%), #000000";
+
+const DETAIL_BACKGROUND =
+  "radial-gradient(circle at -10% -8%, rgba(37,99,235,0.46), transparent 24%), #000000";
+
 const coachSohoGallery = Array.from(
   { length: 9 },
   (_, index) => `/products/coach-soho-maple-brown-${index + 1}.jpeg`
@@ -23,15 +29,14 @@ const products = [
     description:
       "Romeo inspired sunglasses with a bold X-Metal vintage sport look. Multiple lens colorways available.",
     variants: [
-      { color: "Black Frame / Red Fire Lens", status: "Available" },
-      { color: "Black Frame / Black Lens", status: "Available" },
-      { color: "Black Frame / Purple Lens", status: "Low Stock" },
-      { color: "Black Frame / Blue Lens", status: "Available" },
-      { color: "Black Frame / Aqua Lens", status: "Coming Soon" },
-      { color: "Black Frame / Red Orange Lens", status: "Available" },
-      { color: "Silver Frame / Yellow Lens", status: "Available" },
-      { color: "Silver Frame / Purple Lens", status: "Available" },
-      { color: "Silver Frame / Smoke Lens", status: "Low Stock" },
+      { color: "Black Frame / Yellow Red Fire Lens", status: "Available" },
+      { color: "Black Frame / Pink Mirror Lens", status: "Available" },
+      { color: "Black Frame / Deep Blue Purple Lens", status: "Available" },
+      { color: "Silver Frame / Smoke Gray Lens", status: "Available" },
+      { color: "Silver Frame / Pink Purple Mirror Lens", status: "Available" },
+      { color: "Silver Frame / Black Smoke Lens", status: "Available" },
+      { color: "Black Frame / Gold Red Fire Lens", status: "Available" },
+      { color: "Silver Frame / Blue Purple Mirror Lens", status: "Available" },
     ],
   },
   {
@@ -47,14 +52,17 @@ const products = [
       "Juliet inspired sunglasses with a clean vintage sport-luxury look. Multiple lens colorways available.",
     variants: [
       { color: "Black Frame / Red Fire Lens", status: "Available" },
-      { color: "Black Frame / Black Lens", status: "Available" },
-      { color: "Black Frame / Purple Lens", status: "Available" },
-      { color: "Black Frame / Blue Lens", status: "Available" },
-      { color: "Black Frame / Aqua Lens", status: "Coming Soon" },
-      { color: "Black Frame / Red Orange Lens", status: "Available" },
-      { color: "Silver Frame / Purple Lens", status: "Available" },
-      { color: "Silver Frame / Smoke Lens", status: "Low Stock" },
-      { color: "Silver Frame / Bronze Lens", status: "Available" },
+      { color: "Black Frame / Smoke Black Lens", status: "Available" },
+      { color: "Gunmetal Frame / Purple Gold Mirror Lens", status: "Available" },
+      { color: "Gunmetal Frame / Hot Pink Mirror Lens", status: "Available" },
+      { color: "Silver Frame / Black Lens", status: "Available" },
+      { color: "Gunmetal Frame / Royal Blue Mirror Lens", status: "Available" },
+      { color: "Gunmetal Frame / Ice Blue Mirror Lens", status: "Available" },
+      { color: "Black Frame / Orange Red Mirror Lens", status: "Available" },
+      { color: "Silver Frame / Smoke Gray Lens", status: "Available" },
+      { color: "Black Frame / Yellow Orange Mirror Lens", status: "Available" },
+      { color: "Black Frame / Purple Aqua Mirror Lens", status: "Available" },
+      { color: "Black Frame / Triple Black Smoke Lens", status: "Available" },
     ],
   },
   {
@@ -73,17 +81,22 @@ const products = [
         color: "Gunmetal Black Frame / Black Lens — Triple Black",
         status: "Available",
       },
-      { color: "Silver Frame / White Lens", status: "Available" },
-      { color: "Silver Frame / Purple Lens", status: "Low Stock" },
-      { color: "White Frame / Blue Lens", status: "Available" },
-      { color: "White Frame / Aqua Lens", status: "Coming Soon" },
-      { color: "Black Frame / Black Lens", status: "Available" },
-      { color: "Black Frame / Smoke Lens", status: "Available" },
-      { color: "Blue Frame / Blue Lens", status: "Available" },
-      { color: "Red Frame / Red Lens", status: "Coming Soon" },
-      { color: "Pink Frame / Pink Lens", status: "Low Stock" },
+      { color: "Clear Silver Frame / Pink Purple Mirror Lens", status: "Available" },
+      { color: "Black Frame / Smoke Black Lens", status: "Available" },
+      { color: "Black Frame / Blue Purple Mirror Lens", status: "Available" },
+      { color: "Silver Frame / Yellow Red Fire Lens", status: "Available" },
+      { color: "Black Frame / Black Lens — Front View", status: "Available" },
+      { color: "Black Frame / Ice Blue Mirror Lens", status: "Available" },
+      { color: "Black Frame / Bronze Amber Lens", status: "Available" },
+      { color: "Silver Frame / Light Blue Ice Lens", status: "Available" },
+      { color: "Gunmetal Frame / Yellow Red Mirror Lens", status: "Available" },
+      { color: "Black Frame / Yellow Lens — Front View", status: "Available" },
+      { color: "Clear Frame / Silver Ice Lens", status: "Available" },
+      { color: "Gunmetal Frame / Clear Light Gray Lens", status: "Available" },
+      { color: "Silver Frame / Smoke Gray Lens", status: "Available" },
+      { color: "Black Frame / Pink Blue Iridescent Lens", status: "Available" },
+      { color: "Black Frame / Aqua Green Mirror Lens", status: "Available" },
     ],
-    gallery: ["/products/splice-gunmetal-black-1.jpeg"],
   },
   {
     id: "radar-ev",
@@ -97,13 +110,18 @@ const products = [
     description:
       "Sporty shield-lens style with multiple colorways and the best entry price in the catalog.",
     variants: [
-      { color: "White Frame / Red and Orange Lens", status: "Available" },
-      { color: "White Frame / Blue Lens", status: "Available" },
+      { color: "White Frame / Purple Orange Fire Lens", status: "Available" },
       { color: "Pink Frame / Red and Orange Lens", status: "Available" },
-      { color: "Purple Frame / Purple Lens", status: "Sold Out" },
+      { color: "Clear Smoke Frame / Purple Orange Fire Lens", status: "Available" },
+      { color: "White Frame / Royal Blue Lens", status: "Available" },
       { color: "Black Clear Frame / Silver Mirror Lens", status: "Available" },
+      { color: "Purple Frame / Purple Lens", status: "Sold Out" },
       { color: "Black Frame / 24k Gold Lens", status: "Available" },
-      { color: "Black Frame / Matte Black Lens", status: "Low Stock" },
+      { color: "Black Frame / Royal Blue Lens", status: "Available" },
+      { color: "Black Clear Frame / Blue Green Mirror Lens", status: "Available" },
+      { color: "Light Blue Frame / Blue Lens", status: "Available" },
+      { color: "Black Frame / Matte Black Lens", status: "Available" },
+      { color: "Gunmetal Black Frame / Smoke Gray Lens", status: "Available" },
     ],
     waitlistColor: "Purple Frame / Purple Lens",
   },
@@ -166,13 +184,14 @@ function getColorChips(colorName = "") {
   if (name.includes("white") || name.includes("clear")) chips.push("#f4f4f5");
   if (name.includes("blue") || name.includes("aqua") || name.includes("ice"))
     chips.push("#2563eb");
+  if (name.includes("green")) chips.push("#22c55e");
   if (name.includes("purple")) chips.push("#9333ea");
   if (name.includes("pink")) chips.push("#ec4899");
   if (name.includes("red")) chips.push("#ef4444");
   if (name.includes("orange") || name.includes("fire")) chips.push("#f97316");
   if (name.includes("yellow") || name.includes("gold") || name.includes("24k"))
     chips.push("#facc15");
-  if (name.includes("bronze") || name.includes("brown"))
+  if (name.includes("bronze") || name.includes("brown") || name.includes("maple"))
     chips.push("#92400e");
 
   return [...new Set(chips)].slice(0, 3);
@@ -304,7 +323,7 @@ function HeroTag({ icon, label }) {
         gap: 10,
         padding: "14px 24px",
         borderRadius: 999,
-        border: "1px solid rgba(59,130,246,0.42)",
+        border: "1px solid rgba(59,130,246,0.36)",
         background: "rgba(2,6,23,0.72)",
         color: "#f3f4f6",
         fontWeight: 700,
@@ -389,7 +408,7 @@ function ProductCard({ product, onOpen }) {
               objectFit: product.previewFit || "cover",
               borderRadius: 20,
               display: "block",
-              background: "#0b1120",
+              background: product.previewFit === "contain" ? "#ffffff" : "#0b1120",
             }}
           />
         ) : (
@@ -581,8 +600,7 @@ function ProductDetailPage({ product, onBack }) {
     <main
       style={{
         minHeight: "100vh",
-        background:
-          "radial-gradient(circle at 0% 0%, rgba(37,99,235,0.28), transparent 30%), linear-gradient(180deg, #000000 0%, #020617 55%, #000000 100%)",
+        background: DETAIL_BACKGROUND,
         color: "#ffffff",
         padding: "28px 20px 80px",
       }}
@@ -825,6 +843,7 @@ function ProductDetailPage({ product, onBack }) {
               <div style={{ display: "grid", gap: 14 }}>
                 {product.variants.map((variant) => {
                   const waitlistHref = `${TEXT_URL}?&body=${waitlistMessage}`;
+
                   return (
                     <div
                       key={`${product.id}-${variant.color}`}
@@ -1085,8 +1104,7 @@ export default function App() {
     <main
       style={{
         minHeight: "100vh",
-        background:
-          "radial-gradient(circle at 0% 0%, rgba(37,99,235,0.26), transparent 32%), linear-gradient(180deg, #000000 0%, #000000 38%, #020617 100%)",
+        background: HOME_BACKGROUND,
         color: "#ffffff",
       }}
     >
@@ -1307,7 +1325,9 @@ export default function App() {
         <CategorySection
           title="Sunglasses"
           subtitle="Oakley-inspired frames and colorways"
-          count={`${products.filter((item) => item.category === "Sunglasses").length} styles`}
+          count={`${
+            products.filter((item) => item.category === "Sunglasses").length
+          } styles`}
           items={sunglasses}
           onOpen={openProduct}
         />
@@ -1315,7 +1335,9 @@ export default function App() {
         <CategorySection
           title="Bags"
           subtitle="Coach-inspired bag styles"
-          count={`${products.filter((item) => item.category === "Bags").length} styles`}
+          count={`${
+            products.filter((item) => item.category === "Bags").length
+          } styles`}
           items={bags}
           onOpen={openProduct}
         />
