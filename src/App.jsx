@@ -5,11 +5,9 @@ const FACEBOOK_URL =
   "https://www.facebook.com/marketplace/profile/61585466383362/";
 const TEXT_URL = "sms:+12146359551";
 
-const HOME_BACKGROUND =
-  "radial-gradient(circle at -12% -10%, rgba(37,99,235,0.62), transparent 26%), radial-gradient(circle at 8% 4%, rgba(29,78,216,0.16), transparent 20%), #000000";
-
+const HOME_BACKGROUND = "#000000";
 const DETAIL_BACKGROUND =
-  "radial-gradient(circle at -10% -8%, rgba(37,99,235,0.46), transparent 24%), #000000";
+  "radial-gradient(circle at -10% -8%, rgba(37,99,235,0.32), transparent 22%), #000000";
 
 const coachSohoGallery = Array.from(
   { length: 9 },
@@ -148,8 +146,7 @@ const products = [
     price: 140,
     previewImage: "",
     previewFit: "contain",
-    description:
-      "Classic signature style shoulder bag with a clean everyday look.",
+    description: "Classic signature style shoulder bag with a clean everyday look.",
     variants: [{ color: "Classic Signature Style", status: "Coming Soon" }],
   },
 ];
@@ -167,6 +164,43 @@ const howToOrderSteps = [
   "I’ll confirm availability.",
   "Meet for pickup or arrange delivery.",
 ];
+
+function CornerGlow() {
+  return (
+    <>
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: -260,
+          left: -250,
+          width: 560,
+          height: 560,
+          borderRadius: "50%",
+          background:
+            "radial-gradient(circle, rgba(37,99,235,0.68) 0%, rgba(37,99,235,0.34) 28%, rgba(37,99,235,0.12) 48%, transparent 70%)",
+          pointerEvents: "none",
+          zIndex: 0,
+        }}
+      />
+
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: 360,
+          height: 360,
+          background:
+            "radial-gradient(circle at 0% 0%, rgba(59,130,246,0.16), transparent 62%)",
+          pointerEvents: "none",
+          zIndex: 0,
+        }}
+      />
+    </>
+  );
+}
 
 function getColorChips(colorName = "") {
   const name = colorName.toLowerCase();
@@ -324,7 +358,7 @@ function HeroTag({ icon, label }) {
         padding: "14px 24px",
         borderRadius: 999,
         border: "1px solid rgba(59,130,246,0.36)",
-        background: "rgba(2,6,23,0.72)",
+        background: "rgba(2,6,23,0.78)",
         color: "#f3f4f6",
         fontWeight: 700,
         fontSize: 17,
@@ -1008,9 +1042,8 @@ function ProductDetailPage({ product, onBack }) {
                 color: "rgba(255,255,255,0.56)",
               }}
             >
-              Items are inspired-style pieces and are not original retail
-              Oakley or Coach products. Message before purchase for full
-              details.
+              Items are inspired-style pieces and are not original retail Oakley
+              or Coach products. Message before purchase for full details.
             </div>
           </div>
         </div>
@@ -1106,242 +1139,253 @@ export default function App() {
         minHeight: "100vh",
         background: HOME_BACKGROUND,
         color: "#ffffff",
+        position: "relative",
+        overflow: "hidden",
       }}
     >
-      <section
+      <CornerGlow />
+
+      <div
         style={{
-          maxWidth: 1280,
-          margin: "0 auto",
-          padding: "34px 20px 52px",
-          textAlign: "center",
+          position: "relative",
+          zIndex: 1,
         }}
       >
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <img
-            src="/ivn-vault-logo.png"
-            alt="IVN Vault"
-            style={{
-              width: "min(100%, 620px)",
-              display: "block",
-              margin: "0 auto 18px",
-            }}
-          />
-
-          <h1
-            style={{
-              fontSize: "clamp(52px, 9vw, 120px)",
-              lineHeight: 1.02,
-              margin: "0 0 22px 0",
-              fontWeight: 900,
-              letterSpacing: "-0.04em",
-            }}
-          >
-            Your private catalog
-            <br />
-            for the latest drops.
-          </h1>
-
-          <p
-            style={{
-              margin: "0 auto 38px",
-              maxWidth: 980,
-              fontSize: "clamp(22px, 2.2vw, 34px)",
-              lineHeight: 1.65,
-              color: "rgba(255,255,255,0.72)",
-            }}
-          >
-            Browse sunglasses, bags, available colorways, and bundle deals —
-            all in one clean local catalog.
-          </p>
-
-          <div
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: 16,
-              justifyContent: "center",
-              marginBottom: 40,
-            }}
-          >
-            <HeroTag icon={<OakleyMiniLogo />} label="Sunglasses" />
-            <HeroTag icon={<CoachMiniLogo />} label="Bags" />
-            <HeroTag icon={<BundleMiniIcon />} label="Bundle Deals" />
-            <HeroTag icon={<PickupMiniIcon />} label="Local Pickup" />
-          </div>
-
-          <div
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: 16,
-              justifyContent: "center",
-            }}
-          >
-            <button
-              onClick={scrollToCatalog}
-              style={{
-                cursor: "pointer",
-                border: 0,
-                borderRadius: 999,
-                padding: "20px 36px",
-                minWidth: 220,
-                background: "#5b86ea",
-                color: "#ffffff",
-                fontSize: 18,
-                fontWeight: 900,
-                boxShadow: "0 20px 40px rgba(37,99,235,0.28)",
-              }}
-            >
-              View Catalog
-            </button>
-
-            <a
-              href={FACEBOOK_URL}
-              target="_blank"
-              rel="noreferrer"
-              style={{
-                textDecoration: "none",
-                borderRadius: 999,
-                padding: "20px 36px",
-                minWidth: 220,
-                background: "transparent",
-                border: "1px solid rgba(255,255,255,0.14)",
-                color: "#ffffff",
-                fontSize: 18,
-                fontWeight: 900,
-                boxShadow: "0 20px 40px rgba(2,6,23,0.28)",
-              }}
-            >
-              Contact Me
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <section
-        ref={catalogRef}
-        style={{
-          maxWidth: 1280,
-          margin: "0 auto",
-          padding: "0 20px 80px",
-        }}
-      >
-        <div
+        <section
           style={{
-            display: "flex",
-            alignItems: "flex-end",
-            justifyContent: "space-between",
-            gap: 20,
-            flexWrap: "wrap",
-            marginBottom: 26,
+            maxWidth: 1280,
+            margin: "0 auto",
+            padding: "34px 20px 52px",
+            textAlign: "center",
           }}
         >
-          <div>
-            <div
+          <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+            <img
+              src="/ivn-vault-logo.png"
+              alt="IVN Vault"
               style={{
-                color: "#93c5fd",
-                fontSize: 15,
-                fontWeight: 700,
-                marginBottom: 10,
+                width: "min(100%, 620px)",
+                display: "block",
+                margin: "0 auto 18px",
               }}
-            >
-              ⌁ Current Inventory
-            </div>
-            <h2
+            />
+
+            <h1
               style={{
-                margin: 0,
-                fontSize: "clamp(44px, 7vw, 80px)",
-                lineHeight: 1,
+                fontSize: "clamp(52px, 9vw, 120px)",
+                lineHeight: 1.02,
+                margin: "0 0 22px 0",
+                fontWeight: 900,
                 letterSpacing: "-0.04em",
               }}
             >
-              Catalog
-            </h2>
-          </div>
+              Your private catalog
+              <br />
+              for the latest drops.
+            </h1>
 
+            <p
+              style={{
+                margin: "0 auto 38px",
+                maxWidth: 980,
+                fontSize: "clamp(22px, 2.2vw, 34px)",
+                lineHeight: 1.65,
+                color: "rgba(255,255,255,0.72)",
+              }}
+            >
+              Browse sunglasses, bags, available colorways, and bundle deals —
+              all in one clean local catalog.
+            </p>
+
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: 16,
+                justifyContent: "center",
+                marginBottom: 40,
+              }}
+            >
+              <HeroTag icon={<OakleyMiniLogo />} label="Sunglasses" />
+              <HeroTag icon={<CoachMiniLogo />} label="Bags" />
+              <HeroTag icon={<BundleMiniIcon />} label="Bundle Deals" />
+              <HeroTag icon={<PickupMiniIcon />} label="Local Pickup" />
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: 16,
+                justifyContent: "center",
+              }}
+            >
+              <button
+                onClick={scrollToCatalog}
+                style={{
+                  cursor: "pointer",
+                  border: 0,
+                  borderRadius: 999,
+                  padding: "20px 36px",
+                  minWidth: 220,
+                  background: "#5b86ea",
+                  color: "#ffffff",
+                  fontSize: 18,
+                  fontWeight: 900,
+                  boxShadow: "0 20px 40px rgba(37,99,235,0.28)",
+                }}
+              >
+                View Catalog
+              </button>
+
+              <a
+                href={FACEBOOK_URL}
+                target="_blank"
+                rel="noreferrer"
+                style={{
+                  textDecoration: "none",
+                  borderRadius: 999,
+                  padding: "20px 36px",
+                  minWidth: 220,
+                  background: "transparent",
+                  border: "1px solid rgba(255,255,255,0.14)",
+                  color: "#ffffff",
+                  fontSize: 18,
+                  fontWeight: 900,
+                  boxShadow: "0 20px 40px rgba(2,6,23,0.28)",
+                }}
+              >
+                Contact Me
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <section
+          ref={catalogRef}
+          style={{
+            maxWidth: 1280,
+            margin: "0 auto",
+            padding: "0 20px 80px",
+          }}
+        >
           <div
             style={{
               display: "flex",
-              gap: 14,
+              alignItems: "flex-end",
+              justifyContent: "space-between",
+              gap: 20,
               flexWrap: "wrap",
-              width: "min(100%, 540px)",
+              marginBottom: 26,
             }}
           >
+            <div>
+              <div
+                style={{
+                  color: "#93c5fd",
+                  fontSize: 15,
+                  fontWeight: 700,
+                  marginBottom: 10,
+                }}
+              >
+                ⌁ Current Inventory
+              </div>
+              <h2
+                style={{
+                  margin: 0,
+                  fontSize: "clamp(44px, 7vw, 80px)",
+                  lineHeight: 1,
+                  letterSpacing: "-0.04em",
+                }}
+              >
+                Catalog
+              </h2>
+            </div>
+
             <div
               style={{
-                flex: 1,
-                minWidth: 240,
                 display: "flex",
-                alignItems: "center",
-                gap: 10,
-                background: "rgba(3,7,18,0.86)",
-                border: "1px solid rgba(255,255,255,0.1)",
-                borderRadius: 22,
-                padding: "0 16px",
+                gap: 14,
+                flexWrap: "wrap",
+                width: "min(100%, 540px)",
               }}
             >
-              <span style={{ color: "rgba(255,255,255,0.48)" }}>
-                <SearchIcon />
-              </span>
-              <input
-                type="text"
-                value={searchTerm}
-                onChange={(event) => setSearchTerm(event.target.value)}
-                placeholder="Search products or colors..."
+              <div
                 style={{
-                  width: "100%",
-                  border: 0,
-                  outline: "none",
-                  background: "transparent",
+                  flex: 1,
+                  minWidth: 240,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 10,
+                  background: "rgba(3,7,18,0.86)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  borderRadius: 22,
+                  padding: "0 16px",
+                }}
+              >
+                <span style={{ color: "rgba(255,255,255,0.48)" }}>
+                  <SearchIcon />
+                </span>
+                <input
+                  type="text"
+                  value={searchTerm}
+                  onChange={(event) => setSearchTerm(event.target.value)}
+                  placeholder="Search products or colors..."
+                  style={{
+                    width: "100%",
+                    border: 0,
+                    outline: "none",
+                    background: "transparent",
+                    color: "#ffffff",
+                    height: 60,
+                    fontSize: 16,
+                  }}
+                />
+              </div>
+
+              <select
+                value={filterValue}
+                onChange={(event) => setFilterValue(event.target.value)}
+                style={{
+                  minWidth: 180,
+                  background: "rgba(3,7,18,0.86)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  borderRadius: 22,
                   color: "#ffffff",
                   height: 60,
                   fontSize: 16,
+                  padding: "0 18px",
+                  outline: "none",
                 }}
-              />
+              >
+                <option value="All">All</option>
+                <option value="Sunglasses">Sunglasses</option>
+                <option value="Bags">Bags</option>
+              </select>
             </div>
-
-            <select
-              value={filterValue}
-              onChange={(event) => setFilterValue(event.target.value)}
-              style={{
-                minWidth: 180,
-                background: "rgba(3,7,18,0.86)",
-                border: "1px solid rgba(255,255,255,0.1)",
-                borderRadius: 22,
-                color: "#ffffff",
-                height: 60,
-                fontSize: 16,
-                padding: "0 18px",
-                outline: "none",
-              }}
-            >
-              <option value="All">All</option>
-              <option value="Sunglasses">Sunglasses</option>
-              <option value="Bags">Bags</option>
-            </select>
           </div>
-        </div>
 
-        <CategorySection
-          title="Sunglasses"
-          subtitle="Oakley-inspired frames and colorways"
-          count={`${
-            products.filter((item) => item.category === "Sunglasses").length
-          } styles`}
-          items={sunglasses}
-          onOpen={openProduct}
-        />
+          <CategorySection
+            title="Sunglasses"
+            subtitle="Oakley-inspired frames and colorways"
+            count={`${
+              products.filter((item) => item.category === "Sunglasses").length
+            } styles`}
+            items={sunglasses}
+            onOpen={openProduct}
+          />
 
-        <CategorySection
-          title="Bags"
-          subtitle="Coach-inspired bag styles"
-          count={`${
-            products.filter((item) => item.category === "Bags").length
-          } styles`}
-          items={bags}
-          onOpen={openProduct}
-        />
-      </section>
+          <CategorySection
+            title="Bags"
+            subtitle="Coach-inspired bag styles"
+            count={`${
+              products.filter((item) => item.category === "Bags").length
+            } styles`}
+            items={bags}
+            onOpen={openProduct}
+          />
+        </section>
+      </div>
     </main>
   );
 }
