@@ -1,719 +1,1437 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import "./App.css";
 
-const FACEBOOK_URL = "https://www.facebook.com/marketplace/profile/61585466383362/";
+const FACEBOOK_URL =
+  "https://www.facebook.com/marketplace/profile/61585466383362/";
 const TEXT_URL = "sms:+12146359551";
 
-function getWaitlistTextUrl(productName, colorName) {
-  const message = `Hey, I want to join the restock waitlist for ${productName} — ${colorName}.`;
-  return `sms:+12146359551?&body=${encodeURIComponent(message)}`;
-}
+const coachSohoGallery = Array.from(
+  { length: 9 },
+  (_, index) => `/products/coach-soho-maple-brown-${index + 1}.jpeg`
+);
 
 const products = [
   {
     id: "romeo",
-    name: "Oakley X-Metal Romeo",
-    category: "Oakley-Inspired Sunglasses",
-    price: "$100",
-    status: "Available",
+    brand: "Oakley",
+    category: "Sunglasses",
+    title: "Oakley X-Metal Romeo",
+    shortTitle: "Romeo",
+    price: 100,
+    previewImage: "/products/romeo-preview-1.jpeg",
+    previewFit: "cover",
     description:
       "Romeo inspired sunglasses with a bold X-Metal vintage sport look. Multiple lens colorways available.",
     variants: [
-      {
-        color: "Black Frame / Yellow Red Fire Lens",
-        status: "Available",
-        images: ["/products/romeo-preview-1.jpeg"],
-      },
-      { color: "Black Frame / Pink Mirror Lens", status: "Available" },
-      { color: "Black Frame / Deep Blue Purple Lens", status: "Available" },
-      { color: "Silver Frame / Smoke Gray Lens", status: "Available" },
-      { color: "Silver Frame / Pink Purple Mirror Lens", status: "Available" },
-      { color: "Silver Frame / Black Smoke Lens", status: "Available" },
-      { color: "Black Frame / Gold Red Fire Lens", status: "Available" },
-      { color: "Silver Frame / Blue Purple Mirror Lens", status: "Available" },
+      { color: "Black Frame / Red Fire Lens", status: "Available" },
+      { color: "Black Frame / Black Lens", status: "Available" },
+      { color: "Black Frame / Purple Lens", status: "Low Stock" },
+      { color: "Black Frame / Blue Lens", status: "Available" },
+      { color: "Black Frame / Aqua Lens", status: "Coming Soon" },
+      { color: "Black Frame / Red Orange Lens", status: "Available" },
+      { color: "Silver Frame / Yellow Lens", status: "Available" },
+      { color: "Silver Frame / Purple Lens", status: "Available" },
+      { color: "Silver Frame / Smoke Lens", status: "Low Stock" },
     ],
   },
   {
     id: "juliet",
-    name: "Oakley X-Metal Juliet",
-    category: "Oakley-Inspired Sunglasses",
-    price: "$100",
-    status: "Available",
+    brand: "Oakley",
+    category: "Sunglasses",
+    title: "Oakley X-Metal Juliet",
+    shortTitle: "Juliet",
+    price: 100,
+    previewImage: "/products/juliet-preview-1.jpeg",
+    previewFit: "cover",
     description:
       "Juliet inspired sunglasses with a clean vintage sport-luxury look. Multiple lens colorways available.",
     variants: [
-      {
-        color: "Black Frame / Red Fire Lens",
-        status: "Available",
-        images: ["/products/juliet-preview-1.jpeg"],
-      },
-      { color: "Black Frame / Smoke Black Lens", status: "Available" },
-      { color: "Gunmetal Frame / Purple Gold Mirror Lens", status: "Available" },
-      { color: "Gunmetal Frame / Hot Pink Mirror Lens", status: "Available" },
-      { color: "Silver Frame / Black Lens", status: "Available" },
-      { color: "Gunmetal Frame / Royal Blue Mirror Lens", status: "Available" },
-      { color: "Gunmetal Frame / Ice Blue Mirror Lens", status: "Available" },
-      { color: "Black Frame / Orange Red Mirror Lens", status: "Available" },
-      { color: "Silver Frame / Smoke Gray Lens", status: "Available" },
-      { color: "Black Frame / Yellow Orange Mirror Lens", status: "Available" },
-      { color: "Black Frame / Purple Aqua Mirror Lens", status: "Available" },
-      { color: "Black Frame / Triple Black Smoke Lens", status: "Available" },
+      { color: "Black Frame / Red Fire Lens", status: "Available" },
+      { color: "Black Frame / Black Lens", status: "Available" },
+      { color: "Black Frame / Purple Lens", status: "Available" },
+      { color: "Black Frame / Blue Lens", status: "Available" },
+      { color: "Black Frame / Aqua Lens", status: "Coming Soon" },
+      { color: "Black Frame / Red Orange Lens", status: "Available" },
+      { color: "Silver Frame / Purple Lens", status: "Available" },
+      { color: "Silver Frame / Smoke Lens", status: "Low Stock" },
+      { color: "Silver Frame / Bronze Lens", status: "Available" },
     ],
   },
   {
     id: "splice",
-    name: "Oakley Splice",
-    category: "Oakley-Inspired Sunglasses",
-    price: "$90",
-    status: "Available",
+    brand: "Oakley",
+    category: "Sunglasses",
+    title: "Oakley Splice",
+    shortTitle: "Splice",
+    price: 90,
+    previewImage: "/products/splice-preview-1.jpeg",
+    previewFit: "cover",
     description:
       "Splice inspired wraparound sunglasses with bold early-2000s styling. Multiple lens colorways available.",
     variants: [
       {
         color: "Gunmetal Black Frame / Black Lens — Triple Black",
         status: "Available",
-        images: ["/products/splice-preview-1.jpeg"],
       },
-      { color: "Clear Silver Frame / Pink Purple Mirror Lens", status: "Available" },
-      { color: "Black Frame / Smoke Black Lens", status: "Available" },
-      { color: "Black Frame / Blue Purple Mirror Lens", status: "Available" },
-      { color: "Silver Frame / Yellow Red Fire Lens", status: "Available" },
-      { color: "Black Frame / Black Lens — Front View", status: "Available" },
-      { color: "Black Frame / Ice Blue Mirror Lens", status: "Available" },
-      { color: "Black Frame / Bronze Amber Lens", status: "Available" },
-      { color: "Silver Frame / Light Blue Ice Lens", status: "Available" },
-      { color: "Gunmetal Frame / Yellow Red Mirror Lens", status: "Available" },
-      { color: "Black Frame / Yellow Lens — Front View", status: "Available" },
-      { color: "Clear Frame / Silver Ice Lens", status: "Available" },
-      { color: "Gunmetal Frame / Clear Light Gray Lens", status: "Available" },
-      { color: "Silver Frame / Smoke Gray Lens", status: "Available" },
-      { color: "Black Frame / Pink Blue Iridescent Lens", status: "Available" },
-      { color: "Black Frame / Aqua Green Mirror Lens", status: "Available" },
+      { color: "Silver Frame / White Lens", status: "Available" },
+      { color: "Silver Frame / Purple Lens", status: "Low Stock" },
+      { color: "White Frame / Blue Lens", status: "Available" },
+      { color: "White Frame / Aqua Lens", status: "Coming Soon" },
+      { color: "Black Frame / Black Lens", status: "Available" },
+      { color: "Black Frame / Smoke Lens", status: "Available" },
+      { color: "Blue Frame / Blue Lens", status: "Available" },
+      { color: "Red Frame / Red Lens", status: "Coming Soon" },
+      { color: "Pink Frame / Pink Lens", status: "Low Stock" },
     ],
+    gallery: ["/products/splice-gunmetal-black-1.jpeg"],
   },
   {
     id: "radar-ev",
-    name: "Oakley Radar EV",
-    category: "Oakley-Inspired Sunglasses",
-    price: "$60",
-    status: "Available",
+    brand: "Oakley",
+    category: "Sunglasses",
+    title: "Oakley Radar EV",
+    shortTitle: "Radar EV",
+    price: 60,
+    previewImage: "/products/radar-preview-1.jpeg",
+    previewFit: "cover",
     description:
-      "Radar EV inspired performance sunglasses with a sporty shield-lens look. Multiple frame and lens colorways available.",
+      "Sporty shield-lens style with multiple colorways and the best entry price in the catalog.",
     variants: [
-      {
-        color: "White Frame / Purple Orange Fire Lens",
-        status: "Available",
-        images: ["/products/radar-preview-1.jpeg"],
-      },
+      { color: "White Frame / Red and Orange Lens", status: "Available" },
+      { color: "White Frame / Blue Lens", status: "Available" },
       { color: "Pink Frame / Red and Orange Lens", status: "Available" },
-      { color: "Clear Smoke Frame / Purple Orange Fire Lens", status: "Available" },
-      { color: "White Frame / Royal Blue Lens", status: "Available" },
-      { color: "Black Clear Frame / Silver Mirror Lens", status: "Available" },
       { color: "Purple Frame / Purple Lens", status: "Sold Out" },
+      { color: "Black Clear Frame / Silver Mirror Lens", status: "Available" },
       { color: "Black Frame / 24k Gold Lens", status: "Available" },
-      { color: "Black Frame / Royal Blue Lens", status: "Available" },
-      { color: "Black Clear Frame / Blue Green Mirror Lens", status: "Available" },
-      { color: "Light Blue Frame / Blue Lens", status: "Available" },
-      { color: "Black Frame / Matte Black Lens", status: "Available" },
-      { color: "Gunmetal Black Frame / Smoke Gray Lens", status: "Available" },
+      { color: "Black Frame / Matte Black Lens", status: "Low Stock" },
     ],
+    waitlistColor: "Purple Frame / Purple Lens",
   },
   {
-    id: "soho",
-    name: "Coach Soho Bag",
-    category: "Coach-Inspired Bags",
-    price: "$120",
-    status: "Available",
-    description: "Soho style shoulder bag inspired by the original Coach design.",
-    variants: [
-      {
-        color: "Maple Brown Signature Jacquard",
-        status: "Available",
-        images: [
-          "/products/coach-soho-maple-brown-1.jpeg",
-          "/products/coach-soho-maple-brown-2.jpeg",
-          "/products/coach-soho-maple-brown-3.jpeg",
-          "/products/coach-soho-maple-brown-4.jpeg",
-          "/products/coach-soho-maple-brown-5.jpeg",
-          "/products/coach-soho-maple-brown-6.jpeg",
-          "/products/coach-soho-maple-brown-7.jpeg",
-          "/products/coach-soho-maple-brown-8.jpeg",
-          "/products/coach-soho-maple-brown-9.jpeg",
-        ],
-      },
-    ],
+    id: "coach-soho",
+    brand: "Coach",
+    category: "Bags",
+    title: "Coach Soho Bag",
+    shortTitle: "Soho Bag",
+    price: 120,
+    previewImage: "/products/coach-soho-maple-brown-1.jpeg",
+    previewFit: "contain",
+    description:
+      "Soho style shoulder bag inspired by the original Coach design.",
+    variants: [{ color: "Maple Brown Signature Jacquard", status: "Available" }],
+    gallery: coachSohoGallery,
   },
   {
-    id: "ashton",
-    name: "Coach Ashton Bag",
-    category: "Coach-Inspired Bags",
-    price: "$140",
-    status: "Available",
-    description: "Ashton style bag with a clean luxury everyday look.",
-    variants: [{ color: "Classic Signature Style", status: "Available" }],
+    id: "coach-ashton",
+    brand: "Coach",
+    category: "Bags",
+    title: "Coach Ashton Bag",
+    shortTitle: "Ashton Bag",
+    price: 140,
+    previewImage: "",
+    previewFit: "contain",
+    description:
+      "Classic signature style shoulder bag with a clean everyday look.",
+    variants: [{ color: "Classic Signature Style", status: "Coming Soon" }],
   },
 ];
 
-function getCategories(productList) {
-  return ["All", ...new Set(productList.map((item) => item.category))];
-}
+const bundleDeals = [
+  "Buy 2 Radar EV pairs for $100 total",
+  "Buy 2 sunglasses and save on the total bundle",
+  "Mix pairs and message me for the best bundle price",
+  "Best deals usually happen when you grab 2 or more items",
+];
 
-function filterProducts(productList, searchText, selectedCategory) {
-  return productList.filter((item) => {
-    const searchableText = `${item.name} ${item.description} ${item.variants
-      .map((variant) => variant.color)
-      .join(" ")}`;
+const howToOrderSteps = [
+  "Pick the design and color.",
+  "Message me on Facebook or text me.",
+  "I’ll confirm availability.",
+  "Meet for pickup or arrange delivery.",
+];
 
-    const matchesSearch = searchableText.toLowerCase().includes(searchText.toLowerCase());
-    const matchesCategory = selectedCategory === "All" || item.category === selectedCategory;
-
-    return matchesSearch && matchesCategory;
-  });
-}
-
-function getProductById(productList, productId) {
-  return productList.find((item) => item.id === productId);
-}
-
-function getProductIdFromHash() {
-  return window.location.hash.replace("#", "");
-}
-
-function getColorChips(colorName) {
+function getColorChips(colorName = "") {
   const name = colorName.toLowerCase();
   const chips = [];
 
-  if (name.includes("black")) chips.push("#020617");
-
+  if (name.includes("black")) chips.push("#111827");
   if (
     name.includes("gunmetal") ||
     name.includes("smoke") ||
     name.includes("gray") ||
-    name.includes("silver") ||
-    name.includes("mirror")
+    name.includes("silver")
   ) {
     chips.push("#a1a1aa");
   }
-
-  if (name.includes("white") || name.includes("clear")) chips.push("#ffffff");
-  if (name.includes("blue") || name.includes("aqua") || name.includes("ice")) chips.push("#3b82f6");
-  if (name.includes("purple")) chips.push("#a855f7");
+  if (name.includes("white") || name.includes("clear")) chips.push("#f4f4f5");
+  if (name.includes("blue") || name.includes("aqua") || name.includes("ice"))
+    chips.push("#2563eb");
+  if (name.includes("purple")) chips.push("#9333ea");
   if (name.includes("pink")) chips.push("#ec4899");
-  if (name.includes("red") || name.includes("fire")) chips.push("#ef4444");
-
-  if (name.includes("orange") || name.includes("gold") || name.includes("yellow") || name.includes("24k")) {
+  if (name.includes("red")) chips.push("#ef4444");
+  if (name.includes("orange") || name.includes("fire")) chips.push("#f97316");
+  if (name.includes("yellow") || name.includes("gold") || name.includes("24k"))
     chips.push("#facc15");
-  }
+  if (name.includes("bronze") || name.includes("brown"))
+    chips.push("#92400e");
 
-  if (name.includes("green")) chips.push("#34d399");
-  if (name.includes("bronze") || name.includes("brown") || name.includes("amber")) chips.push("#92400e");
-
-  return chips.length ? chips.slice(0, 5) : ["#3b82f6", "#a1a1aa"];
+  return [...new Set(chips)].slice(0, 3);
 }
 
-function getGradient(colorName) {
-  const name = colorName.toLowerCase();
-
-  if (name.includes("fire") || name.includes("red") || name.includes("orange")) {
-    return "linear-gradient(135deg, rgba(239,68,68,.38), rgba(249,115,22,.24), #020617)";
-  }
-
-  if (name.includes("pink")) {
-    return "linear-gradient(135deg, rgba(236,72,153,.35), rgba(168,85,247,.25), #020617)";
-  }
-
-  if (name.includes("purple") || name.includes("iridescent")) {
-    return "linear-gradient(135deg, rgba(168,85,247,.35), rgba(59,130,246,.25), #020617)";
-  }
-
-  if (name.includes("blue") || name.includes("ice") || name.includes("aqua")) {
-    return "linear-gradient(135deg, rgba(59,130,246,.35), rgba(34,211,238,.2), #020617)";
-  }
-
-  if (name.includes("yellow") || name.includes("gold") || name.includes("24k")) {
-    return "linear-gradient(135deg, rgba(250,204,21,.3), rgba(249,115,22,.2), #020617)";
-  }
-
-  if (name.includes("bronze") || name.includes("brown") || name.includes("amber")) {
-    return "linear-gradient(135deg, rgba(146,64,14,.36), rgba(202,138,4,.16), #020617)";
-  }
-
-  if (
-    name.includes("white") ||
-    name.includes("silver") ||
-    name.includes("clear") ||
-    name.includes("mirror")
-  ) {
-    return "linear-gradient(135deg, rgba(244,244,245,.24), rgba(161,161,170,.18), #020617)";
-  }
-
-  return "linear-gradient(135deg, #27272a, #020617, rgba(30,64,175,.35))";
+function slugify(value) {
+  return value.toLowerCase().replace(/\s+/g, "-");
 }
 
-function Icon({ type }) {
-  if (type === "bag") return <span className="icon">▢</span>;
-  if (type === "glasses") return <span className="icon">⌐⌐</span>;
-  if (type === "arrow") return <span>→</span>;
-  if (type === "back") return <span>←</span>;
-  return <span className="icon">⌕</span>;
+function statusStyle(status) {
+  switch (status) {
+    case "Available":
+      return {
+        background: "rgba(16,185,129,0.18)",
+        color: "#6ee7b7",
+        border: "1px solid rgba(16,185,129,0.22)",
+      };
+    case "Low Stock":
+      return {
+        background: "rgba(250,204,21,0.14)",
+        color: "#fde047",
+        border: "1px solid rgba(250,204,21,0.22)",
+      };
+    case "Sold Out":
+      return {
+        background: "rgba(239,68,68,0.14)",
+        color: "#fca5a5",
+        border: "1px solid rgba(239,68,68,0.22)",
+      };
+    case "Coming Soon":
+    default:
+      return {
+        background: "rgba(96,165,250,0.14)",
+        color: "#93c5fd",
+        border: "1px solid rgba(96,165,250,0.22)",
+      };
+  }
+}
+
+function OakleyMiniLogo() {
+  return (
+    <img
+      src="/brand/oakley-logo.png"
+      alt="Oakley"
+      style={{
+        width: 18,
+        height: 18,
+        objectFit: "contain",
+        display: "block",
+        filter: "brightness(0) invert(1)",
+      }}
+    />
+  );
+}
+
+function CoachMiniLogo() {
+  return (
+    <img
+      src="/brand/coach-logo.png"
+      alt="Coach"
+      style={{
+        width: 18,
+        height: 18,
+        objectFit: "contain",
+        display: "block",
+        borderRadius: 3,
+        background: "#fff",
+        padding: 1,
+      }}
+    />
+  );
+}
+
+function BundleMiniIcon() {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M12 3L21 12L12 21L3 12L12 3Z"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function PickupMiniIcon() {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="6" stroke="currentColor" strokeWidth="1.8" />
+      <path
+        d="M12 3V8"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+      <path
+        d="M12 16V21"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+      <path
+        d="M3 12H8"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+      <path
+        d="M16 12H21"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function BackIcon() {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M15 18L9 12L15 6"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function SearchIcon() {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+    >
+      <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="1.8" />
+      <path
+        d="M20 20L17 17"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function HeroTag({ icon, label }) {
+  return (
+    <div
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 10,
+        padding: "14px 24px",
+        borderRadius: 999,
+        border: "1px solid rgba(59,130,246,0.42)",
+        background: "rgba(2,6,23,0.72)",
+        color: "#f3f4f6",
+        fontWeight: 700,
+        fontSize: 17,
+        lineHeight: 1,
+        boxShadow: "0 0 0 1px rgba(37,99,235,0.04) inset",
+      }}
+    >
+      <span
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          justifyContent: "center",
+          color: "#ffffff",
+        }}
+      >
+        {icon}
+      </span>
+      <span>{label}</span>
+    </div>
+  );
 }
 
 function StatusBadge({ status }) {
-  const className = `status status-${status.toLowerCase().replaceAll(" ", "-")}`;
-  return <span className={className}>{status}</span>;
-}
-
-function ProductImage({ product, variant, large = false, selectedImage }) {
-  const colorName = variant?.color || product.variants?.[0]?.color || product.name;
-  const firstImage = selectedImage || variant?.images?.[0];
-
-  if (!firstImage) return null;
-
   return (
-    <div className={`placeholder image-placeholder ${large ? "placeholder-large" : ""}`}>
-      <img src={firstImage} alt={`${product.name} ${colorName}`} className="product-image" />
-    </div>
+    <span
+      style={{
+        ...statusStyle(status),
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: 999,
+        padding: "8px 14px",
+        fontSize: 13,
+        fontWeight: 800,
+        letterSpacing: "0.01em",
+        whiteSpace: "nowrap",
+      }}
+    >
+      {status}
+    </span>
   );
 }
 
-function PlaceholderVisual({ product, variant, large = false, selectedImage }) {
-  const colorName = variant?.color || product.variants?.[0]?.color || product.name;
-  const isBag = product.category.includes("Bags");
-
-  if (variant?.images?.length) {
-    return <ProductImage product={product} variant={variant} large={large} selectedImage={selectedImage} />;
-  }
+function ProductCard({ product, onOpen }) {
+  const chips = [...new Set(product.variants.flatMap((v) => getColorChips(v.color)))].slice(
+    0,
+    8
+  );
 
   return (
-    <div className={`placeholder ${large ? "placeholder-large" : ""}`} style={{ background: getGradient(colorName) }}>
-      <div className="glow glow-one" />
-      <div className="glow glow-two" />
-
-      <div className="placeholder-content">
-        <div className="placeholder-icon">{isBag ? <Icon type="bag" /> : <Icon type="glasses" />}</div>
-        <p className="placeholder-label">Placeholder Preview</p>
-        <h3>{product.name}</h3>
-        <p>{colorName}</p>
+    <div
+      style={{
+        background: "rgba(3,7,18,0.94)",
+        border: "1px solid rgba(255,255,255,0.09)",
+        borderRadius: 28,
+        overflow: "hidden",
+        boxShadow: "0 24px 60px rgba(0,0,0,0.32)",
+      }}
+    >
+      <div
+        style={{
+          height: 300,
+          background:
+            product.previewImage && product.previewImage.trim() !== ""
+              ? "#0b1120"
+              : "radial-gradient(circle at 30% 20%, rgba(148,66,32,0.9), rgba(12,18,44,0.95) 70%)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: 18,
+          borderBottom: "1px solid rgba(255,255,255,0.06)",
+        }}
+      >
+        {product.previewImage ? (
+          <img
+            src={product.previewImage}
+            alt={product.title}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: product.previewFit || "cover",
+              borderRadius: 20,
+              display: "block",
+              background: "#0b1120",
+            }}
+          />
+        ) : (
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              borderRadius: 20,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "#ffffff",
+              textAlign: "center",
+              padding: 24,
+            }}
+          >
+            <div
+              style={{
+                fontSize: 12,
+                letterSpacing: "0.28em",
+                textTransform: "uppercase",
+                color: "#c4d4ff",
+                marginBottom: 12,
+              }}
+            >
+              Placeholder Preview
+            </div>
+            <div style={{ fontSize: 42, fontWeight: 900, lineHeight: 1.05 }}>
+              {product.shortTitle}
+            </div>
+          </div>
+        )}
       </div>
-    </div>
-  );
-}
 
-function ProductGallery({ product, variant, selectedImage, onSelectImage }) {
-  const images = variant?.images || [];
-
-  return (
-    <div className="gallery-wrap">
-      <PlaceholderVisual product={product} variant={variant} large selectedImage={selectedImage} />
-
-      {images.length > 1 && (
-        <div className="thumbnail-row">
-          {images.map((image, index) => {
-            const isSelected = image === selectedImage;
-
-            return (
-              <button
-                key={image}
-                onClick={() => onSelectImage(image)}
-                className={`thumbnail-button ${isSelected ? "thumbnail-selected" : ""}`}
-                aria-label={`View image ${index + 1}`}
-              >
-                <img src={image} alt={`${product.name} preview ${index + 1}`} />
-              </button>
-            );
-          })}
-        </div>
-      )}
-    </div>
-  );
-}
-
-function ProductCard({ item, onSelect, buttonLabel = "View Colors" }) {
-  return (
-    <article className="product-card">
-      <button onClick={() => onSelect(item.id)} className="visual-button">
-        <PlaceholderVisual product={item} variant={item.variants?.[0]} />
-      </button>
-
-      <div className="product-body">
-        <div className="product-top">
+      <div style={{ padding: 26 }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "flex-start",
+            justifyContent: "space-between",
+            gap: 14,
+            marginBottom: 16,
+          }}
+        >
           <div>
-            <p className="category">{item.category}</p>
-            <h3>{item.name}</h3>
+            <div
+              style={{
+                color: "#93c5fd",
+                fontSize: 15,
+                marginBottom: 8,
+              }}
+            >
+              {product.brand}-Inspired {product.category}
+            </div>
+            <h3
+              style={{
+                margin: 0,
+                color: "#ffffff",
+                fontSize: 26,
+                lineHeight: 1.15,
+              }}
+            >
+              {product.title}
+            </h3>
           </div>
 
-          <span className="varies">Varies by color</span>
+          <div
+            style={{
+              flexShrink: 0,
+              borderRadius: 999,
+              background: "rgba(37,99,235,0.22)",
+              color: "#bfdbfe",
+              padding: "10px 16px",
+              fontSize: 15,
+              fontWeight: 700,
+              whiteSpace: "nowrap",
+            }}
+          >
+            Varies by color
+          </div>
         </div>
 
-        <p className="description">{item.description}</p>
+        <p
+          style={{
+            color: "rgba(255,255,255,0.70)",
+            fontSize: 16,
+            lineHeight: 1.8,
+            margin: "0 0 18px 0",
+          }}
+        >
+          {product.description}
+        </p>
 
-        <div className="mini-chips">
-          {item.variants?.slice(0, 5).map((variant) => (
-            <div key={variant.color} className="mini-chip-group">
-              {getColorChips(variant.color).slice(0, 2).map((chip, index) => (
-                <span key={`${variant.color}-${index}`} className="mini-chip" style={{ background: chip }} />
-              ))}
-            </div>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            flexWrap: "wrap",
+            gap: 8,
+            marginBottom: 24,
+          }}
+        >
+          {chips.map((chip, index) => (
+            <span
+              key={`${product.id}-${chip}-${index}`}
+              style={{
+                width: 14,
+                height: 14,
+                borderRadius: "50%",
+                background: chip,
+                border: "1px solid rgba(255,255,255,0.22)",
+                display: "inline-block",
+              }}
+            />
           ))}
-
-          {item.variants?.length > 5 && <span className="more">+{item.variants.length - 5} more</span>}
+          {product.variants.length > 8 ? (
+            <span style={{ color: "rgba(255,255,255,0.58)", fontSize: 14 }}>
+              +{product.variants.length - 8} more
+            </span>
+          ) : null}
         </div>
 
-        <div className="product-bottom">
-          <span className="price">{item.price}</span>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: 16,
+            flexWrap: "wrap",
+          }}
+        >
+          <div
+            style={{
+              fontSize: 30,
+              fontWeight: 900,
+              color: "#ffffff",
+            }}
+          >
+            ${product.price}
+          </div>
 
-          <button onClick={() => onSelect(item.id)} className="white-button">
-            {buttonLabel} <Icon type="arrow" />
+          <button
+            onClick={() => onOpen(product.id)}
+            style={{
+              border: 0,
+              cursor: "pointer",
+              borderRadius: 18,
+              padding: "16px 24px",
+              background: "#ffffff",
+              color: "#111827",
+              fontSize: 16,
+              fontWeight: 800,
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 10,
+            }}
+          >
+            View Colors
+            <span aria-hidden="true">→</span>
           </button>
         </div>
       </div>
-    </article>
+    </div>
   );
 }
 
 function ProductDetailPage({ product, onBack }) {
-  const [selectedVariant, setSelectedVariant] = useState(product.variants[0]);
-  const [selectedImage, setSelectedImage] = useState(product.variants[0]?.images?.[0] || null);
-  const isSoldOut = selectedVariant.status === "Sold Out";
+  const gallery =
+    product.gallery && product.gallery.length > 0
+      ? product.gallery
+      : product.previewImage
+      ? [product.previewImage]
+      : [];
 
-  function handleVariantSelect(variant) {
-    setSelectedVariant(variant);
-    setSelectedImage(variant.images?.[0] || null);
-  }
+  const [activeImage, setActiveImage] = useState(0);
+
+  useEffect(() => {
+    setActiveImage(0);
+  }, [product.id]);
+
+  const waitlistMessage = encodeURIComponent(
+    `Hi! I want the ${product.title}${
+      product.waitlistColor ? ` in ${product.waitlistColor}` : ""
+    }. Please let me know when it’s back in stock.`
+  );
 
   return (
-    <main className="site">
-      <section className="detail-section">
-        <div className="container">
-          <button onClick={onBack} className="outline-button">
-            <Icon type="back" /> Back to Catalog
-          </button>
+    <main
+      style={{
+        minHeight: "100vh",
+        background: "#020617",
+        color: "#ffffff",
+        padding: "28px 20px 80px",
+      }}
+    >
+      <div style={{ maxWidth: 1240, margin: "0 auto" }}>
+        <button
+          onClick={onBack}
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 8,
+            background: "transparent",
+            color: "#cbd5e1",
+            border: "1px solid rgba(255,255,255,0.14)",
+            borderRadius: 999,
+            padding: "12px 18px",
+            cursor: "pointer",
+            marginBottom: 26,
+            fontWeight: 700,
+          }}
+        >
+          <BackIcon />
+          Back to catalog
+        </button>
 
-          <div className="detail-grid">
-            <div className="detail-visual">
-              <ProductGallery
-                product={product}
-                variant={selectedVariant}
-                selectedImage={selectedImage}
-                onSelectImage={setSelectedImage}
-              />
-            </div>
-
-            <div className="detail-panel">
-              <p className="category">{product.category}</p>
-              <h1>{product.name}</h1>
-              <p className="description">{product.description}</p>
-
-              <div className="price-row">
-                <span className="big-price">{product.price}</span>
-                <StatusBadge status={selectedVariant.status} />
-              </div>
-
-              <div className="color-section">
-                <div className="section-title-row">
-                  <h2>Available Colors</h2>
-                  <span>{product.variants.length} options</span>
-                </div>
-
-                <div className="variant-grid">
-                  {product.variants.map((variant) => {
-                    const isSelected = variant.color === selectedVariant.color;
-
-                    return (
-                      <button
-                        key={variant.color}
-                        onClick={() => handleVariantSelect(variant)}
-                        className={`variant-card ${isSelected ? "selected" : ""}`}
-                      >
-                        <div className="mini-chips">
-                          {getColorChips(variant.color).map((chip, index) => (
-                            <span
-                              key={`${variant.color}-${index}`}
-                              className="chip small"
-                              style={{ background: chip }}
-                            />
-                          ))}
-                        </div>
-
-                        <p>{variant.color}</p>
-                        <StatusBadge status={variant.status} />
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {isSoldOut && (
-                <div className="waitlist-box">
-                  <h3>Sold out? Join the restock waitlist.</h3>
-                  <p>
-                    Text me and I’ll save your interest for this exact colorway. Once it comes back, I can message you
-                    first.
-                  </p>
-
-                  <a href={getWaitlistTextUrl(product.name, selectedVariant.color)} className="blue-button">
-                    Text Me for Restock Alert
-                  </a>
+        <div
+          style={{
+            display: "grid",
+            gap: 28,
+            gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+            alignItems: "start",
+          }}
+        >
+          <div
+            style={{
+              background: "rgba(3,7,18,0.96)",
+              border: "1px solid rgba(255,255,255,0.08)",
+              borderRadius: 30,
+              overflow: "hidden",
+            }}
+          >
+            <div
+              style={{
+                background: "#0b1120",
+                minHeight: 420,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: 20,
+              }}
+            >
+              {gallery.length > 0 ? (
+                <img
+                  src={gallery[activeImage]}
+                  alt={product.title}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    maxHeight: 500,
+                    objectFit: "contain",
+                    display: "block",
+                  }}
+                />
+              ) : (
+                <div
+                  style={{
+                    width: "100%",
+                    minHeight: 420,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "rgba(255,255,255,0.5)",
+                    fontSize: 18,
+                  }}
+                >
+                  Image coming soon
                 </div>
               )}
+            </div>
 
-              <div className="action-row">
-                <a href={FACEBOOK_URL} className="outline-button">
-                  Facebook
-                </a>
-
-                <a href={TEXT_URL} className="blue-button">
-                  Text Me
-                </a>
+            {gallery.length > 1 ? (
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(72px, 1fr))",
+                  gap: 12,
+                  padding: 18,
+                  background: "rgba(255,255,255,0.02)",
+                }}
+              >
+                {gallery.map((image, index) => (
+                  <button
+                    key={image}
+                    onClick={() => setActiveImage(index)}
+                    style={{
+                      border:
+                        activeImage === index
+                          ? "2px solid #3b82f6"
+                          : "1px solid rgba(255,255,255,0.10)",
+                      borderRadius: 16,
+                      padding: 0,
+                      cursor: "pointer",
+                      overflow: "hidden",
+                      background: "#0b1120",
+                    }}
+                  >
+                    <img
+                      src={image}
+                      alt={`${product.title} ${index + 1}`}
+                      style={{
+                        width: "100%",
+                        aspectRatio: "1 / 1",
+                        objectFit: "cover",
+                        display: "block",
+                      }}
+                    />
+                  </button>
+                ))}
               </div>
+            ) : null}
+          </div>
+
+          <div
+            style={{
+              background: "rgba(3,7,18,0.96)",
+              border: "1px solid rgba(255,255,255,0.08)",
+              borderRadius: 30,
+              padding: 28,
+            }}
+          >
+            <div
+              style={{
+                color: "#93c5fd",
+                fontSize: 16,
+                marginBottom: 10,
+              }}
+            >
+              {product.brand}-Inspired {product.category}
+            </div>
+
+            <h1
+              style={{
+                margin: 0,
+                fontSize: 46,
+                lineHeight: 1.05,
+                marginBottom: 14,
+              }}
+            >
+              {product.title}
+            </h1>
+
+            <p
+              style={{
+                color: "rgba(255,255,255,0.72)",
+                fontSize: 18,
+                lineHeight: 1.75,
+                margin: "0 0 22px 0",
+              }}
+            >
+              {product.description}
+            </p>
+
+            <div
+              style={{
+                fontSize: 36,
+                fontWeight: 900,
+                marginBottom: 24,
+              }}
+            >
+              ${product.price}
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: 12,
+                marginBottom: 22,
+              }}
+            >
+              <a
+                href={FACEBOOK_URL}
+                target="_blank"
+                rel="noreferrer"
+                style={{
+                  textDecoration: "none",
+                  borderRadius: 18,
+                  padding: "16px 22px",
+                  background: "#4f7ee8",
+                  color: "#ffffff",
+                  fontWeight: 800,
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                Message on Facebook
+              </a>
+
+              <a
+                href={TEXT_URL}
+                style={{
+                  textDecoration: "none",
+                  borderRadius: 18,
+                  padding: "16px 22px",
+                  background: "transparent",
+                  border: "1px solid rgba(255,255,255,0.16)",
+                  color: "#ffffff",
+                  fontWeight: 800,
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                Text Me
+              </a>
+            </div>
+
+            <div
+              style={{
+                background: "rgba(255,255,255,0.04)",
+                border: "1px solid rgba(255,255,255,0.08)",
+                borderRadius: 22,
+                padding: 20,
+                marginBottom: 24,
+              }}
+            >
+              <div
+                style={{
+                  fontSize: 12,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.18em",
+                  color: "#c4d4ff",
+                  marginBottom: 14,
+                }}
+              >
+                Colorways
+              </div>
+
+              <div style={{ display: "grid", gap: 14 }}>
+                {product.variants.map((variant) => {
+                  const waitlistHref = `${TEXT_URL}?&body=${waitlistMessage}`;
+                  return (
+                    <div
+                      key={`${product.id}-${variant.color}`}
+                      style={{
+                        padding: 16,
+                        borderRadius: 18,
+                        border: "1px solid rgba(255,255,255,0.08)",
+                        background: "rgba(2,6,23,0.72)",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "flex-start",
+                          justifyContent: "space-between",
+                          gap: 12,
+                          flexWrap: "wrap",
+                          marginBottom: 10,
+                        }}
+                      >
+                        <div>
+                          <div
+                            style={{
+                              fontSize: 18,
+                              fontWeight: 800,
+                              marginBottom: 8,
+                            }}
+                          >
+                            {variant.color}
+                          </div>
+
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 8,
+                              flexWrap: "wrap",
+                            }}
+                          >
+                            {getColorChips(variant.color).map((chip, index) => (
+                              <span
+                                key={`${variant.color}-${chip}-${index}`}
+                                style={{
+                                  width: 14,
+                                  height: 14,
+                                  borderRadius: "50%",
+                                  background: chip,
+                                  border: "1px solid rgba(255,255,255,0.22)",
+                                  display: "inline-block",
+                                }}
+                              />
+                            ))}
+                          </div>
+                        </div>
+
+                        <StatusBadge status={variant.status} />
+                      </div>
+
+                      {variant.status === "Sold Out" ? (
+                        <a
+                          href={waitlistHref}
+                          style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            textDecoration: "none",
+                            marginTop: 10,
+                            borderRadius: 14,
+                            padding: "12px 16px",
+                            background: "rgba(59,130,246,0.16)",
+                            color: "#bfdbfe",
+                            fontWeight: 800,
+                          }}
+                        >
+                          Join Restock Waitlist
+                        </a>
+                      ) : null}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {product.category === "Sunglasses" ? (
+              <div
+                style={{
+                  background: "rgba(255,255,255,0.04)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  borderRadius: 22,
+                  padding: 20,
+                  marginBottom: 24,
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: 12,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.18em",
+                    color: "#c4d4ff",
+                    marginBottom: 14,
+                  }}
+                >
+                  Bundle Deals
+                </div>
+
+                <div style={{ display: "grid", gap: 10 }}>
+                  {bundleDeals.map((deal) => (
+                    <div
+                      key={deal}
+                      style={{
+                        color: "rgba(255,255,255,0.76)",
+                        lineHeight: 1.6,
+                      }}
+                    >
+                      • {deal}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+
+            <div
+              style={{
+                background: "rgba(255,255,255,0.04)",
+                border: "1px solid rgba(255,255,255,0.08)",
+                borderRadius: 22,
+                padding: 20,
+                marginBottom: 24,
+              }}
+            >
+              <div
+                style={{
+                  fontSize: 12,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.18em",
+                  color: "#c4d4ff",
+                  marginBottom: 14,
+                }}
+              >
+                How to Order
+              </div>
+
+              <div style={{ display: "grid", gap: 10 }}>
+                {howToOrderSteps.map((step, index) => (
+                  <div
+                    key={step}
+                    style={{
+                      color: "rgba(255,255,255,0.76)",
+                      lineHeight: 1.7,
+                    }}
+                  >
+                    {index + 1}. {step}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div
+              style={{
+                fontSize: 14,
+                lineHeight: 1.75,
+                color: "rgba(255,255,255,0.56)",
+              }}
+            >
+              Items are inspired-style pieces and are not original retail
+              Oakley or Coach products. Message before purchase for full
+              details.
             </div>
           </div>
         </div>
-      </section>
+      </div>
     </main>
   );
 }
 
 export default function App() {
-  const [query, setQuery] = useState("");
-  const [category, setCategory] = useState("All");
-  const [selectedProductId, setSelectedProductId] = useState(() => {
-    const hashProductId = getProductIdFromHash();
-    const productExists = products.some((item) => item.id === hashProductId);
-    return productExists ? hashProductId : null;
-  });
+  const catalogRef = useRef(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterValue, setFilterValue] = useState("All");
+  const [selectedProductId, setSelectedProductId] = useState(null);
 
   useEffect(() => {
-    function handleHashChange() {
-      const hashProductId = getProductIdFromHash();
-      const productExists = products.some((item) => item.id === hashProductId);
-      setSelectedProductId(productExists ? hashProductId : null);
+    const hash = window.location.hash.replace("#", "");
+    if (hash) {
+      const found = products.find((product) => slugify(product.id) === hash);
+      if (found) {
+        setSelectedProductId(found.id);
+      }
     }
 
-    window.addEventListener("hashchange", handleHashChange);
+    const handlePopState = () => {
+      const currentHash = window.location.hash.replace("#", "");
+      if (!currentHash) {
+        setSelectedProductId(null);
+        return;
+      }
 
-    return () => {
-      window.removeEventListener("hashchange", handleHashChange);
+      const found = products.find((product) => slugify(product.id) === currentHash);
+      setSelectedProductId(found ? found.id : null);
     };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
   }, []);
 
-  function handleProductSelect(productId) {
+  const openProduct = (productId) => {
     setSelectedProductId(productId);
-    window.location.hash = productId;
+    const nextHash = `#${slugify(productId)}`;
+    window.history.pushState({ productId }, "", nextHash);
     window.scrollTo({ top: 0, behavior: "smooth" });
-  }
+  };
 
-  function handleBackToCatalog() {
+  const closeProduct = () => {
+    if (window.location.hash) {
+      window.history.pushState({}, "", window.location.pathname);
+    }
     setSelectedProductId(null);
-    window.history.pushState("", document.title, window.location.pathname + window.location.search);
-    setTimeout(() => {
-      document.getElementById("catalog")?.scrollIntoView({ behavior: "smooth" });
-    }, 0);
-  }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
-  const categories = getCategories(products);
-  const selectedProduct = selectedProductId ? getProductById(products, selectedProductId) : null;
+  const selectedProduct = products.find((product) => product.id === selectedProductId);
 
   const filteredProducts = useMemo(() => {
-    return filterProducts(products, query, category);
-  }, [query, category]);
+    return products.filter((product) => {
+      const matchesCategory =
+        filterValue === "All" || product.category === filterValue;
 
-  const sunglassesProducts = filteredProducts.filter((item) => item.category === "Oakley-Inspired Sunglasses");
-  const bagProducts = filteredProducts.filter((item) => item.category === "Coach-Inspired Bags");
+      const haystack = [
+        product.title,
+        product.brand,
+        product.category,
+        product.description,
+        ...product.variants.map((variant) => variant.color),
+      ]
+        .join(" ")
+        .toLowerCase();
+
+      const matchesSearch = haystack.includes(searchTerm.toLowerCase());
+
+      return matchesCategory && matchesSearch;
+    });
+  }, [filterValue, searchTerm]);
+
+  const sunglasses = filteredProducts.filter(
+    (product) => product.category === "Sunglasses"
+  );
+  const bags = filteredProducts.filter((product) => product.category === "Bags");
+
+  const scrollToCatalog = () => {
+    catalogRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   if (selectedProduct) {
-    return <ProductDetailPage product={selectedProduct} onBack={handleBackToCatalog} />;
+    return <ProductDetailPage product={selectedProduct} onBack={closeProduct} />;
   }
 
   return (
-    <main className="site">
-      <section className="hero">
-        <div className="container">
-          <img src="/ivn-vault-logo.png" alt="IVN Vault" className="hero-logo" />
+    <main
+      style={{
+        minHeight: "100vh",
+        background:
+          "radial-gradient(circle at 10% 12%, rgba(37,99,235,0.44), transparent 30%), #000000",
+        color: "#ffffff",
+      }}
+    >
+      <section
+        style={{
+          maxWidth: 1280,
+          margin: "0 auto",
+          padding: "44px 20px 52px",
+          textAlign: "center",
+        }}
+      >
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <img
+            src="/ivn-vault-logo.png"
+            alt="IVN Vault"
+            style={{
+              width: "min(100%, 620px)",
+              display: "block",
+              margin: "0 auto 18px",
+            }}
+          />
 
-          <div className="hero-copy">
-            <h2>Curated inspired accessories with a premium look.</h2>
-            <p>
-              Browse sunglasses, bags, available colorways, and bundle deals — all in one clean local catalog.
-            </p>
+          <h1
+            style={{
+              fontSize: "clamp(52px, 9vw, 120px)",
+              lineHeight: 1.02,
+              margin: "0 0 22px 0",
+              fontWeight: 900,
+              letterSpacing: "-0.04em",
+            }}
+          >
+            Your private catalog
+            <br />
+            for the latest drops.
+          </h1>
+
+          <p
+            style={{
+              margin: "0 auto 38px",
+              maxWidth: 980,
+              fontSize: "clamp(22px, 2.2vw, 34px)",
+              lineHeight: 1.65,
+              color: "rgba(255,255,255,0.72)",
+            }}
+          >
+            Browse sunglasses, bags, available colorways, and bundle deals —
+            all in one clean local catalog.
+          </p>
+
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 16,
+              justifyContent: "center",
+              marginBottom: 40,
+            }}
+          >
+            <HeroTag icon={<OakleyMiniLogo />} label="Sunglasses" />
+            <HeroTag icon={<CoachMiniLogo />} label="Bags" />
+            <HeroTag icon={<BundleMiniIcon />} label="Bundle Deals" />
+            <HeroTag icon={<PickupMiniIcon />} label="Local Pickup" />
           </div>
 
-          <div className="hero-badges">
-            <span>⌐⌐ Sunglasses</span>
-            <span>▢ Bags</span>
-            <span>◇ Bundle Deals</span>
-            <span>⌖ Local Pickup</span>
-          </div>
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 16,
+              justifyContent: "center",
+            }}
+          >
+            <button
+              onClick={scrollToCatalog}
+              style={{
+                cursor: "pointer",
+                border: 0,
+                borderRadius: 999,
+                padding: "20px 36px",
+                minWidth: 220,
+                background: "#5b86ea",
+                color: "#ffffff",
+                fontSize: 18,
+                fontWeight: 900,
+                boxShadow: "0 20px 40px rgba(37,99,235,0.28)",
+              }}
+            >
+              View Catalog
+            </button>
 
-          <div className="hero-actions">
-            <a href="#catalog" className="blue-button">
-              View Catalog <Icon type="arrow" />
-            </a>
-
-            <a href="#contact" className="outline-button">
+            <a
+              href={FACEBOOK_URL}
+              target="_blank"
+              rel="noreferrer"
+              style={{
+                textDecoration: "none",
+                borderRadius: 999,
+                padding: "20px 36px",
+                minWidth: 220,
+                background: "transparent",
+                border: "1px solid rgba(255,255,255,0.14)",
+                color: "#ffffff",
+                fontSize: 18,
+                fontWeight: 900,
+                boxShadow: "0 20px 40px rgba(2,6,23,0.28)",
+              }}
+            >
               Contact Me
             </a>
           </div>
         </div>
       </section>
 
-      <section id="catalog" className="container catalog-section">
-        <div className="catalog-header">
+      <section
+        ref={catalogRef}
+        style={{
+          maxWidth: 1280,
+          margin: "0 auto",
+          padding: "0 20px 80px",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "flex-end",
+            justifyContent: "space-between",
+            gap: 20,
+            flexWrap: "wrap",
+            marginBottom: 26,
+          }}
+        >
           <div>
-            <p className="current">
-              <Icon type="glasses" /> Current Inventory
-            </p>
-            <h2>Catalog</h2>
+            <div
+              style={{
+                color: "#93c5fd",
+                fontSize: 15,
+                fontWeight: 700,
+                marginBottom: 10,
+              }}
+            >
+              ⌁ Current Inventory
+            </div>
+            <h2
+              style={{
+                margin: 0,
+                fontSize: "clamp(44px, 7vw, 80px)",
+                lineHeight: 1,
+                letterSpacing: "-0.04em",
+              }}
+            >
+              Catalog
+            </h2>
           </div>
 
-          <div className="filters">
-            <input
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder="Search products or colors..."
-            />
+          <div
+            style={{
+              display: "flex",
+              gap: 14,
+              flexWrap: "wrap",
+              width: "min(100%, 540px)",
+            }}
+          >
+            <div
+              style={{
+                flex: 1,
+                minWidth: 240,
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
+                background: "rgba(3,7,18,0.86)",
+                border: "1px solid rgba(255,255,255,0.1)",
+                borderRadius: 22,
+                padding: "0 16px",
+              }}
+            >
+              <span style={{ color: "rgba(255,255,255,0.48)" }}>
+                <SearchIcon />
+              </span>
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={(event) => setSearchTerm(event.target.value)}
+                placeholder="Search products or colors..."
+                style={{
+                  width: "100%",
+                  border: 0,
+                  outline: "none",
+                  background: "transparent",
+                  color: "#ffffff",
+                  height: 60,
+                  fontSize: 16,
+                }}
+              />
+            </div>
 
-            <select value={category} onChange={(event) => setCategory(event.target.value)}>
-              {categories.map((item) => (
-                <option key={item}>{item}</option>
-              ))}
+            <select
+              value={filterValue}
+              onChange={(event) => setFilterValue(event.target.value)}
+              style={{
+                minWidth: 180,
+                background: "rgba(3,7,18,0.86)",
+                border: "1px solid rgba(255,255,255,0.1)",
+                borderRadius: 22,
+                color: "#ffffff",
+                height: 60,
+                fontSize: 16,
+                padding: "0 18px",
+                outline: "none",
+              }}
+            >
+              <option value="All">All</option>
+              <option value="Sunglasses">Sunglasses</option>
+              <option value="Bags">Bags</option>
             </select>
           </div>
         </div>
 
-        {sunglassesProducts.length > 0 && (
-          <div className="category-section">
-            <div className="category-heading">
-              <div>
-                <h3>Sunglasses</h3>
-                <p>Oakley-inspired frames and colorways</p>
-              </div>
+        <CategorySection
+          title="Sunglasses"
+          subtitle="Oakley-inspired frames and colorways"
+          count={`${products.filter((item) => item.category === "Sunglasses").length} styles`}
+          items={sunglasses}
+          onOpen={openProduct}
+        />
 
-              <span>{sunglassesProducts.length} styles</span>
-            </div>
-
-            <div className="product-grid">
-              {sunglassesProducts.map((item) => (
-                <ProductCard key={item.id} item={item} onSelect={handleProductSelect} />
-              ))}
-            </div>
-          </div>
-        )}
-
-        {sunglassesProducts.length > 0 && bagProducts.length > 0 && (
-          <div className="divider">
-            <span>Next Category</span>
-          </div>
-        )}
-
-        {bagProducts.length > 0 && (
-          <div className="category-section">
-            <div className="category-heading">
-              <div>
-                <h3>Bags</h3>
-                <p>Coach-inspired bag styles</p>
-              </div>
-
-              <span>{bagProducts.length} styles</span>
-            </div>
-
-            <div className="product-grid">
-              {bagProducts.map((item) => (
-                <ProductCard
-                  key={item.id}
-                  item={item}
-                  onSelect={handleProductSelect}
-                  buttonLabel="View Options"
-                />
-              ))}
-            </div>
-          </div>
-        )}
+        <CategorySection
+          title="Bags"
+          subtitle="Coach-inspired bag styles"
+          count={`${products.filter((item) => item.category === "Bags").length} styles`}
+          items={bags}
+          onOpen={openProduct}
+        />
       </section>
+    </main>
+  );
+}
 
-      <section className="container best-seller">
+function CategorySection({ title, subtitle, count, items, onOpen }) {
+  if (!items.length) return null;
+
+  return (
+    <section style={{ marginTop: 46 }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "flex-end",
+          justifyContent: "space-between",
+          gap: 16,
+          flexWrap: "wrap",
+          marginBottom: 20,
+        }}
+      >
         <div>
-          <p className="eyebrow">Bundle Deals</p>
-          <h2>Save more when you grab more.</h2>
-          <p>
-            Bundle pricing can be mixed between sunglasses. Message me the models and colors you want, and I’ll confirm
-            the best total.
+          <h3
+            style={{
+              margin: 0,
+              fontSize: "clamp(28px, 5vw, 54px)",
+              lineHeight: 1,
+            }}
+          >
+            {title}
+          </h3>
+          <p
+            style={{
+              margin: "10px 0 0 0",
+              color: "rgba(255,255,255,0.58)",
+              fontSize: 18,
+            }}
+          >
+            {subtitle}
           </p>
         </div>
 
-        <div className="deal-grid deal-grid-top">
-          <div>
-            <p>Radar EV</p>
-            <h3>2 for $100</h3>
-          </div>
-
-          <div>
-            <p>Mixed Sunglasses</p>
-            <h3>Save $15+</h3>
-          </div>
-
-          <div>
-            <p>3+ Items</p>
-            <h3>Best Deal</h3>
-          </div>
+        <div
+          style={{
+            borderRadius: 999,
+            border: "1px solid rgba(255,255,255,0.12)",
+            padding: "12px 18px",
+            color: "rgba(255,255,255,0.72)",
+            fontSize: 15,
+          }}
+        >
+          {count}
         </div>
-      </section>
+      </div>
 
-      <section className="order-section">
-        <div className="container order-grid">
-          <div className="order-intro">
-            <p className="eyebrow">How to Order</p>
-            <h2>Simple pickup process.</h2>
-            <p>Choose what you want, message me, and I’ll confirm the details before meeting.</p>
-          </div>
-
-          <div className="steps-grid">
-            {[
-              "Pick the design and color.",
-              "Message me on Facebook.",
-              "I’ll confirm availability.",
-              "Meet for pickup or arrange delivery.",
-            ].map((step, index) => (
-              <div key={step} className="step-card">
-                <span>{index + 1}</span>
-                <p>{step}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="transparency-section">
-        <div className="container">
-          <div className="transparency-box">
-            <p className="eyebrow">Transparency Note</p>
-            <p>
-              Items are inspired-style pieces and are not original retail Oakley or Coach products. The pieces are
-              high-quality, 1:1-style items with premium details and overall quality. Message before purchase for full
-              details.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section id="contact" className="contact-section">
-        <div className="container contact-box">
-          <div>
-            <h2>Interested in something?</h2>
-            <p>Message me the product name and color you want. I can confirm availability, pickup, and details.</p>
-          </div>
-
-          <div className="contact-actions">
-            <a href={FACEBOOK_URL} className="outline-button">
-              Facebook
-            </a>
-
-            <a href={TEXT_URL} className="blue-button">
-              Text Me
-            </a>
-          </div>
-        </div>
-      </section>
-    </main>
+      <div
+        style={{
+          display: "grid",
+          gap: 26,
+          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+        }}
+      >
+        {items.map((item) => (
+          <ProductCard key={item.id} product={item} onOpen={onOpen} />
+        ))}
+      </div>
+    </section>
   );
 }
