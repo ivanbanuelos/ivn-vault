@@ -1131,21 +1131,21 @@ export default function App() {
 
   return (
     <main
-      style={{
-        minHeight: "100vh",
-        background:
-          "radial-gradient(circle at 10% 12%, rgba(37,99,235,0.44), transparent 30%), #000000",
-        color: "#ffffff",
-      }}
-    >
+  style={{
+    minHeight: "100vh",
+    background:
+      "radial-gradient(circle at 0% 0%, rgba(37, 99, 235, 0.42), transparent 34%), linear-gradient(180deg, #000000 0%, #020617 45%, #000000 100%)",
+    color: "#ffffff",
+  }}
+>
       <section
-        style={{
-          maxWidth: 1280,
-          margin: "0 auto",
-          padding: "44px 20px 52px",
-          textAlign: "center",
-        }}
-      >
+  style={{
+    maxWidth: 1280,
+    margin: "0 auto",
+    padding: "34px 20px 52px",
+    textAlign: "center",
+  }}
+>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <img
             src="/ivn-vault-logo.png"
