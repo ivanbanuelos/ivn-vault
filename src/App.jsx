@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 
 const FACEBOOK_URL = "https://www.facebook.com/marketplace/profile/61585466383362/";
@@ -173,6 +173,10 @@ function filterProducts(productList, searchText, selectedCategory) {
 
 function getProductById(productList, productId) {
   return productList.find((item) => item.id === productId);
+}
+
+function getProductIdFromHash() {
+  return window.location.hash.replace("#", "");
 }
 
 function getColorChips(colorName) {
@@ -473,7 +477,39 @@ function ProductDetailPage({ product, onBack }) {
 export default function App() {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("All");
-  const [selectedProductId, setSelectedProductId] = useState(null);
+  const [selectedProductId, setSelectedProductId] = useState(() => {
+    const hashProductId = getProductIdFromHash();
+    const productExists = products.some((item) => item.id === hashProductId);
+    return productExists ? hashProductId : null;
+  });
+
+  useEffect(() => {
+    function handleHashChange() {
+      const hashProductId = getProductIdFromHash();
+      const productExists = products.some((item) => item.id === hashProductId);
+      setSelectedProductId(productExists ? hashProductId : null);
+    }
+
+    window.addEventListener("hashchange", handleHashChange);
+
+    return () => {
+      window.removeEventListener("hashchange", handleHashChange);
+    };
+  }, []);
+
+  function handleProductSelect(productId) {
+    setSelectedProductId(productId);
+    window.location.hash = productId;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function handleBackToCatalog() {
+    setSelectedProductId(null);
+    window.history.pushState("", document.title, window.location.pathname + window.location.search);
+    setTimeout(() => {
+      document.getElementById("catalog")?.scrollIntoView({ behavior: "smooth" });
+    }, 0);
+  }
 
   const categories = getCategories(products);
   const selectedProduct = selectedProductId ? getProductById(products, selectedProductId) : null;
@@ -486,7 +522,7 @@ export default function App() {
   const bagProducts = filteredProducts.filter((item) => item.category === "Coach-Inspired Bags");
 
   if (selectedProduct) {
-    return <ProductDetailPage product={selectedProduct} onBack={() => setSelectedProductId(null)} />;
+    return <ProductDetailPage product={selectedProduct} onBack={handleBackToCatalog} />;
   }
 
   return (
@@ -553,7 +589,7 @@ export default function App() {
 
             <div className="product-grid">
               {sunglassesProducts.map((item) => (
-                <ProductCard key={item.id} item={item} onSelect={setSelectedProductId} />
+                <ProductCard key={item.id} item={item} onSelect={handleProductSelect} />
               ))}
             </div>
           </div>
@@ -578,7 +614,12 @@ export default function App() {
 
             <div className="product-grid">
               {bagProducts.map((item) => (
-                <ProductCard key={item.id} item={item} onSelect={setSelectedProductId} buttonLabel="View Options" />
+                <ProductCard
+                  key={item.id}
+                  item={item}
+                  onSelect={handleProductSelect}
+                  buttonLabel="View Options"
+                />
               ))}
             </div>
           </div>
