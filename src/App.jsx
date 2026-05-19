@@ -529,18 +529,25 @@ export default function App() {
     <main className="site">
       <section className="hero">
         <div className="container">
-         
-
           <img src="/ivn-vault-logo.png" alt="IVN Vault" className="hero-logo" />
 
-          <p className="hero-text">
-            Browse Oakley-inspired sunglasses and Coach-inspired bags. Message to check availability, colors, bundle
-            deals, and pickup options.
-          </p>
+          <div className="hero-copy">
+            <h2>Curated inspired accessories with a premium look.</h2>
+            <p>
+              Browse sunglasses, bags, available colorways, and bundle deals — all in one clean local catalog.
+            </p>
+          </div>
+
+          <div className="hero-badges">
+            <span>⌐⌐ Sunglasses</span>
+            <span>▢ Bags</span>
+            <span>◇ Bundle Deals</span>
+            <span>⌖ Local Pickup</span>
+          </div>
 
           <div className="hero-actions">
             <a href="#catalog" className="blue-button">
-              View Catalog
+              View Catalog <Icon type="arrow" />
             </a>
 
             <a href="#contact" className="outline-button">
