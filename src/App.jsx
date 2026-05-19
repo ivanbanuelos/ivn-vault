@@ -529,9 +529,7 @@ export default function App() {
     <main className="site">
       <section className="hero">
         <div className="container">
-          <div className="pill">
-            <Icon type="bag" /> IVN Vault
-          </div>
+         
 
           <img src="/ivn-vault-logo.png" alt="IVN Vault" className="hero-logo" />
 
