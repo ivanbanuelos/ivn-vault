@@ -533,7 +533,7 @@ export default function App() {
             <Icon type="bag" /> IVN Vault
           </div>
 
-          <h1>IVN Vault</h1>
+          <img src="/ivn-vault-logo.png" alt="IVN Vault" className="hero-logo" />
 
           <p className="hero-text">
             Browse Oakley-inspired sunglasses and Coach-inspired bags. Message to check availability, colors, bundle

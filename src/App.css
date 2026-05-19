@@ -870,3 +870,17 @@ a {
     border-radius: 14px;
   }
 }
+.hero-logo {
+  width: min(420px, 90%);
+  height: auto;
+  display: block;
+  margin: 32px auto 24px;
+  filter: drop-shadow(0 0 28px rgba(59, 130, 246, 0.22));
+}
+
+@media (max-width: 640px) {
+  .hero-logo {
+    width: min(300px, 88%);
+    margin: 26px auto 20px;
+  }
+}
