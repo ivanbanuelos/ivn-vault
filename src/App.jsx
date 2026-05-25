@@ -14,6 +14,27 @@ const coachSohoGallery = Array.from(
   (_, index) => `/products/coach-soho-maple-brown-${index + 1}.jpeg`
 );
 
+const radarEvBlackPPGallery = Array.from(
+  { length: 13 },
+  (_, index) => `/products/radar-ev/radar-ev-black-pp-${index + 1}.JPG`
+);
+
+const radarEvGreenBlueGallery = Array.from(
+  { length: 13 },
+  (_, index) => `/products/radar-ev/radar-ev-green-blue-cf${index + 1}.JPG`
+);
+
+const radarEvPurpleGallery = Array.from(
+  { length: 11 },
+  (_, index) => `/products/radar-ev/radar-ev-purple${index + 1}.JPG`
+);
+
+const radarEvGallery = [
+  ...radarEvBlackPPGallery,
+  ...radarEvGreenBlueGallery,
+  ...radarEvPurpleGallery,
+];
+
 const products = [
   {
     id: "romeo",
@@ -103,7 +124,7 @@ const products = [
     title: "Oakley Radar EV",
     shortTitle: "Radar EV",
     price: 60,
-    previewImage: "/products/radar-preview-1.jpeg",
+    previewImage: "/products/radar-ev/radar-ev-black-pp-1.JPG",
     previewFit: "cover",
     description:
       "Sporty shield-lens style with multiple colorways and the best entry price in the catalog.",
@@ -121,6 +142,7 @@ const products = [
       { color: "Black Frame / Matte Black Lens", status: "Available" },
       { color: "Gunmetal Black Frame / Smoke Gray Lens", status: "Available" },
     ],
+    gallery: radarEvGallery,
     waitlistColor: "Purple Frame / Purple Lens",
   },
   {
