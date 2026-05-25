@@ -29,11 +29,6 @@ const radarEvPurpleGallery = Array.from(
   (_, index) => `/products/radar-ev/radar-ev-purple${index + 1}.JPG`
 );
 
-const radarEvGallery = [
-  ...radarEvBlackPPGallery,
-  ...radarEvGreenBlueGallery,
-  ...radarEvPurpleGallery,
-];
 
 const products = [
   {
@@ -129,21 +124,22 @@ const products = [
     description:
       "Sporty shield-lens style with multiple colorways and the best entry price in the catalog.",
     variants: [
-      { color: "White Frame / Purple Orange Fire Lens", status: "Available" },
-      { color: "Pink Frame / Red and Orange Lens", status: "Available" },
-      { color: "Clear Smoke Frame / Purple Orange Fire Lens", status: "Available" },
-      { color: "White Frame / Royal Blue Lens", status: "Available" },
-      { color: "Black Clear Frame / Silver Mirror Lens", status: "Available" },
-      { color: "Purple Frame / Purple Lens", status: "Sold Out" },
-      { color: "Black Frame / 24k Gold Lens", status: "Available" },
-      { color: "Black Frame / Royal Blue Lens", status: "Available" },
-      { color: "Black Clear Frame / Blue Green Mirror Lens", status: "Available" },
-      { color: "Light Blue Frame / Blue Lens", status: "Available" },
-      { color: "Black Frame / Matte Black Lens", status: "Available" },
-      { color: "Gunmetal Black Frame / Smoke Gray Lens", status: "Available" },
+      {
+        color: "Black Frame / Purple Prizm Lens",
+        status: "Available",
+        gallery: radarEvBlackPPGallery,
+      },
+      {
+        color: "Black Frame / Green Blue Mirror Lens",
+        status: "Available",
+        gallery: radarEvGreenBlueGallery,
+      },
+      {
+        color: "Purple Frame / Purple Mirror Lens",
+        status: "Available",
+        gallery: radarEvPurpleGallery,
+      },
     ],
-    gallery: radarEvGallery,
-    waitlistColor: "Purple Frame / Purple Lens",
   },
   {
     id: "coach-soho",
@@ -633,23 +629,33 @@ function ProductCard({ product, onOpen }) {
 }
 
 function ProductDetailPage({ product, onBack }) {
-  const gallery =
-    product.gallery && product.gallery.length > 0
-      ? product.gallery
-      : product.previewImage
-      ? [product.previewImage]
-      : [];
-
+  const [selectedVariant, setSelectedVariant] = useState(null);
   const [activeImage, setActiveImage] = useState(0);
 
+  const gallery = selectedVariant?.gallery?.length
+    ? selectedVariant.gallery
+    : product.gallery && product.gallery.length > 0
+    ? product.gallery
+    : product.previewImage
+    ? [product.previewImage]
+    : [];
+
+  const pageTitle = selectedVariant
+    ? `${product.title} — ${selectedVariant.color}`
+    : product.title;
+
   useEffect(() => {
+    setSelectedVariant(null);
     setActiveImage(0);
   }, [product.id]);
 
+  useEffect(() => {
+    setActiveImage(0);
+  }, [selectedVariant]);
+
+  const waitlistColor = selectedVariant?.color || product.waitlistColor;
   const waitlistMessage = encodeURIComponent(
-    `Hi! I want the ${product.title}${
-      product.waitlistColor ? ` in ${product.waitlistColor}` : ""
-    }. Please let me know when it’s back in stock.`
+    `Hi! I want the ${product.title}${waitlistColor ? ` in ${waitlistColor}` : ""}. Please let me know when it’s back in stock.`
   );
 
   return (
@@ -663,7 +669,7 @@ function ProductDetailPage({ product, onBack }) {
     >
       <div style={{ maxWidth: 1240, margin: "0 auto" }}>
         <button
-          onClick={onBack}
+          onClick={selectedVariant ? () => setSelectedVariant(null) : onBack}
           style={{
             display: "inline-flex",
             alignItems: "center",
@@ -679,7 +685,7 @@ function ProductDetailPage({ product, onBack }) {
           }}
         >
           <BackIcon />
-          Back to catalog
+          {selectedVariant ? `Back to ${product.shortTitle} colors` : "Back to catalog"}
         </button>
 
         <div
@@ -711,7 +717,7 @@ function ProductDetailPage({ product, onBack }) {
               {gallery.length > 0 ? (
                 <img
                   src={gallery[activeImage]}
-                  alt={product.title}
+                  alt={pageTitle}
                   style={{
                     width: "100%",
                     height: "100%",
@@ -765,7 +771,7 @@ function ProductDetailPage({ product, onBack }) {
                   >
                     <img
                       src={image}
-                      alt={`${product.title} ${index + 1}`}
+                      alt={`${pageTitle} ${index + 1}`}
                       style={{
                         width: "100%",
                         aspectRatio: "1 / 1",
@@ -805,7 +811,7 @@ function ProductDetailPage({ product, onBack }) {
                 marginBottom: 14,
               }}
             >
-              {product.title}
+              {selectedVariant ? selectedVariant.color : product.title}
             </h1>
 
             <p
@@ -816,7 +822,9 @@ function ProductDetailPage({ product, onBack }) {
                 margin: "0 0 22px 0",
               }}
             >
-              {product.description}
+              {selectedVariant
+                ? `${product.title} style photos for ${selectedVariant.color}. Only this colorway’s images are loaded on this page.`
+                : product.description}
             </p>
 
             <div
@@ -875,113 +883,206 @@ function ProductDetailPage({ product, onBack }) {
               </a>
             </div>
 
-            <div
-              style={{
-                background: "rgba(255,255,255,0.04)",
-                border: "1px solid rgba(255,255,255,0.08)",
-                borderRadius: 22,
-                padding: 20,
-                marginBottom: 24,
-              }}
-            >
+            {!selectedVariant ? (
               <div
                 style={{
-                  fontSize: 12,
-                  textTransform: "uppercase",
-                  letterSpacing: "0.18em",
-                  color: "#c4d4ff",
-                  marginBottom: 14,
+                  background: "rgba(255,255,255,0.04)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  borderRadius: 22,
+                  padding: 20,
+                  marginBottom: 24,
                 }}
               >
-                Colorways
-              </div>
+                <div
+                  style={{
+                    fontSize: 12,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.18em",
+                    color: "#c4d4ff",
+                    marginBottom: 14,
+                  }}
+                >
+                  Colorways
+                </div>
 
-              <div style={{ display: "grid", gap: 14 }}>
-                {product.variants.map((variant) => {
-                  const waitlistHref = `${TEXT_URL}?&body=${waitlistMessage}`;
+                <div style={{ display: "grid", gap: 14 }}>
+                  {product.variants.map((variant) => {
+                    const waitlistHref = `${TEXT_URL}?&body=${waitlistMessage}`;
+                    const hasVariantGallery = variant.gallery && variant.gallery.length > 0;
 
-                  return (
-                    <div
-                      key={`${product.id}-${variant.color}`}
-                      style={{
-                        padding: 16,
-                        borderRadius: 18,
-                        border: "1px solid rgba(255,255,255,0.08)",
-                        background: "rgba(2,6,23,0.72)",
-                      }}
-                    >
+                    return (
                       <div
+                        key={`${product.id}-${variant.color}`}
                         style={{
-                          display: "flex",
-                          alignItems: "flex-start",
-                          justifyContent: "space-between",
-                          gap: 12,
-                          flexWrap: "wrap",
-                          marginBottom: 10,
+                          padding: 16,
+                          borderRadius: 18,
+                          border: "1px solid rgba(255,255,255,0.08)",
+                          background: "rgba(2,6,23,0.72)",
                         }}
                       >
-                        <div>
-                          <div
-                            style={{
-                              fontSize: 18,
-                              fontWeight: 800,
-                              marginBottom: 8,
-                            }}
-                          >
-                            {variant.color}
-                          </div>
-
-                          <div
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: 8,
-                              flexWrap: "wrap",
-                            }}
-                          >
-                            {getColorChips(variant.color).map((chip, index) => (
-                              <span
-                                key={`${variant.color}-${chip}-${index}`}
-                                style={{
-                                  width: 14,
-                                  height: 14,
-                                  borderRadius: "50%",
-                                  background: chip,
-                                  border: "1px solid rgba(255,255,255,0.22)",
-                                  display: "inline-block",
-                                }}
-                              />
-                            ))}
-                          </div>
-                        </div>
-
-                        <StatusBadge status={variant.status} />
-                      </div>
-
-                      {variant.status === "Sold Out" ? (
-                        <a
-                          href={waitlistHref}
+                        <div
                           style={{
-                            display: "inline-flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            textDecoration: "none",
-                            marginTop: 10,
-                            borderRadius: 14,
-                            padding: "12px 16px",
-                            background: "rgba(59,130,246,0.16)",
-                            color: "#bfdbfe",
-                            fontWeight: 800,
+                            display: "flex",
+                            alignItems: "flex-start",
+                            justifyContent: "space-between",
+                            gap: 12,
+                            flexWrap: "wrap",
+                            marginBottom: 10,
                           }}
                         >
-                          Join Restock Waitlist
-                        </a>
-                      ) : null}
-                    </div>
-                  );
-                })}
+                          <div>
+                            <div
+                              style={{
+                                fontSize: 18,
+                                fontWeight: 800,
+                                marginBottom: 8,
+                              }}
+                            >
+                              {variant.color}
+                            </div>
+
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 8,
+                                flexWrap: "wrap",
+                              }}
+                            >
+                              {getColorChips(variant.color).map((chip, index) => (
+                                <span
+                                  key={`${variant.color}-${chip}-${index}`}
+                                  style={{
+                                    width: 14,
+                                    height: 14,
+                                    borderRadius: "50%",
+                                    background: chip,
+                                    border: "1px solid rgba(255,255,255,0.22)",
+                                    display: "inline-block",
+                                  }}
+                                />
+                              ))}
+                            </div>
+                          </div>
+
+                          <StatusBadge status={variant.status} />
+                        </div>
+
+                        {hasVariantGallery ? (
+                          <button
+                            onClick={() => setSelectedVariant(variant)}
+                            style={{
+                              display: "inline-flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              border: 0,
+                              cursor: "pointer",
+                              marginTop: 10,
+                              borderRadius: 14,
+                              padding: "12px 16px",
+                              background: "rgba(59,130,246,0.18)",
+                              color: "#bfdbfe",
+                              fontWeight: 800,
+                            }}
+                          >
+                            View This Style
+                          </button>
+                        ) : null}
+
+                        {variant.status === "Sold Out" ? (
+                          <a
+                            href={waitlistHref}
+                            style={{
+                              display: "inline-flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              textDecoration: "none",
+                              marginTop: 10,
+                              marginLeft: hasVariantGallery ? 10 : 0,
+                              borderRadius: 14,
+                              padding: "12px 16px",
+                              background: "rgba(59,130,246,0.16)",
+                              color: "#bfdbfe",
+                              fontWeight: 800,
+                            }}
+                          >
+                            Join Restock Waitlist
+                          </a>
+                        ) : null}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
+            ) : (
+              <div
+                style={{
+                  background: "rgba(255,255,255,0.04)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  borderRadius: 22,
+                  padding: 20,
+                  marginBottom: 24,
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: 12,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.18em",
+                    color: "#c4d4ff",
+                    marginBottom: 14,
+                  }}
+                >
+                  Selected Style
+                </div>
+
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "flex-start",
+                    justifyContent: "space-between",
+                    gap: 12,
+                    flexWrap: "wrap",
+                  }}
+                >
+                  <div>
+                    <div
+                      style={{
+                        fontSize: 18,
+                        fontWeight: 800,
+                        marginBottom: 10,
+                      }}
+                    >
+                      {selectedVariant.color}
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 8,
+                        flexWrap: "wrap",
+                      }}
+                    >
+                      {getColorChips(selectedVariant.color).map((chip, index) => (
+                        <span
+                          key={`${selectedVariant.color}-${chip}-${index}`}
+                          style={{
+                            width: 14,
+                            height: 14,
+                            borderRadius: "50%",
+                            background: chip,
+                            border: "1px solid rgba(255,255,255,0.22)",
+                            display: "inline-block",
+                          }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  <StatusBadge status={selectedVariant.status} />
+                </div>
+              </div>
+            )}
 
             {product.category === "Sunglasses" ? (
               <div
